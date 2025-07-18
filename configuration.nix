@@ -104,6 +104,27 @@
     neovim 
     wget
     git
+    tmux
+    fprintd
+    htop
+    neofetch
+    curl
+    kitty
+    discord
+    lua
+    tree-sitter
+    ripgrep
+    fd
+    nodejs
+    python3
+    gcc
+    zip
+    unzip
+    fzf
+    stylua
+    zsh
+    oh-my-zsh
+    zsh-powerlevel10k
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

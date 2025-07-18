@@ -1,13 +1,10 @@
 { config, pkgs, ... }:
 
-let 
-  myAliases = {
-    ll = "ls -Al";
-    ".." = "cd ..";
-    dotfiles = "cd ~/.dotfiles";
-  };
-in 
 {
+  imports = [
+    ./termSh.nix
+  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "lcp";
@@ -78,16 +75,6 @@ in
     # EDITOR = "nvim";
   };
 
-  programs.bash = {
-    enable = true;
-    shellAliases = myAliases;
-  };
-
-  programs.zsh = {
-    enable = true;
-    shellAliases = myAliases;
-  };
-  
   # To add a config file to the home manager
   #home.file."path".tet = '' ... '';
 
