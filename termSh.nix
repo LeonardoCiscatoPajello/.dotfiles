@@ -30,6 +30,12 @@ in {
 
     kitty = {
       enable = true;
+      extraConfig = ''
+        font_family JetBrainsMono Nerd Font
+        font_size 12
+        background_blur 1
+        background_opacity 0.37
+      '';
     };
  };
 }
