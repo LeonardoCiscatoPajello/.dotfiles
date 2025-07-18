@@ -9,7 +9,6 @@
   # manage.
   home.username = "lcp";
   home.homeDirectory = "/home/lcp";
-  home.shell = pkgs.zsh;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -26,8 +25,7 @@
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     pkgs.hello
-    pkgs.gcc
-    pkgs.neofetch
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -83,4 +81,4 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-}
+} # ⟦ΔΒ⟧

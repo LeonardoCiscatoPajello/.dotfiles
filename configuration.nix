@@ -15,7 +15,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # I use zsh btw
-  enviroment.shells = with pkgs; [ bash zsh ];
+  environment.shells = with pkgs; [zsh bash];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
@@ -85,6 +85,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lcp = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     description = "Leonardo Ciscato Pajello";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
@@ -99,7 +100,6 @@
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim 
     wget
@@ -155,5 +155,5 @@
   system.stateVersion = "25.05"; # Did you read the comment?
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-}
+  
+} # ⟦ΔΒ⟧
