@@ -23,7 +23,7 @@ in {
 
       oh-my-zsh = {
         enable = true;
-        theme = "half-life";
+        theme = "strug"; #half-life
         plugins = [ "git" ];
       };
     };
@@ -31,6 +31,7 @@ in {
     kitty = {
       enable = true;
       extraConfig = ''
+        show_hyperlink_targets yes
         font_family JetBrainsMonoNL Nerd Font
         font_size 10
         background_blur 1
