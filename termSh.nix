@@ -7,6 +7,7 @@ let Aliases = {
   dot = "cd ~/.dotfiles";
   conf = "cd ~/.config";
   h = "history";
+  cl = "clear";
 };
 in {
   programs = {
@@ -22,12 +23,44 @@ in {
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       shellAliases = Aliases;
+      initExtra = ''
+        PROMPT=" %F{blue}%f %F{red}%n%f%u:%F{yellow}%~%f
+        %F{green}→%f "
 
-      oh-my-zsh = {
-        enable = true;
-        theme = "half-life"; #strug nanotech
-          plugins = [ "git" ];
-      };
+        function preexec() {
+          export CMD_TIMER=$EPOCHREALTIME
+        }
+
+        function precmd() {
+          local exit_code=$?
+          local now_time=$(date +'%H:%M')
+          local duration=""
+
+          if [[ $exit_code -eq 0 ]]; then
+            RPROMPT="%F{green}✔%f"
+          else
+            RPROMPT="%F{red}✗ $exit_code%f"
+          fi
+
+          if [[ -n "$CMD_TIMER" ]]; then
+            local end_time=$EPOCHREALTIME
+            local elapsed=$(echo "$end_time - $CMD_TIMER" | bc)
+            RPROMPT="$RPROMPT %F{yellow}$(printf \"%.2fs\" \"$elapsed\")%f"
+          fi
+
+          RPROMPT="$RPROMPT %F{white}$(date +'%H:%M')%f"
+        }
+
+        [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
+        bindkey '^P' history-beginning-search-backward
+        bindkey '^N' history-beginning-search-forward
+      '';
+
+      #oh-my-zsh = {
+       # enable = false;
+        #theme = "half-life"; #strug nanotech
+        #  plugins = [ "git" ];
+      #};
     };
 
     kitty = {
