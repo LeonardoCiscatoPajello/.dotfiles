@@ -4,7 +4,9 @@ let Aliases = {
   ll = "ls -Al";
   ".." = "cd ..";
   cp = "cp -i";
-  dotfiles = "cd ~/.dotfiles";
+  dot = "cd ~/.dotfiles";
+  conf = "cd ~/.config";
+  h = "history";
 };
 in {
   programs = {
@@ -23,7 +25,7 @@ in {
 
       oh-my-zsh = {
         enable = true;
-        theme = "strug"; #half-life
+        theme = "nanotech"; #strug half-life
         plugins = [ "git" ];
       };
     };
