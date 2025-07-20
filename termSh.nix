@@ -24,36 +24,89 @@ in {
       syntaxHighlighting.enable = true;
       shellAliases = Aliases;
       initExtra = ''
-        PROMPT=" %F{blue}%f %F{red}%n%f%u:%F{yellow}%~%f
-        %F{green}→%f "
+        zmodload zsh/datetime
+        zmodload zsh/mathfunc
 
         function preexec() {
           export CMD_TIMER=$EPOCHREALTIME
         }
+        
+        # Git section
+
+        function git_prompt_info() {
+          if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+            return
+          fi
+
+          local branch dirty ahead behind untracked
+          local symbols=""
+
+          branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD)
+
+          if [[ -n "$(git ls-files --others --exclude-standard 2>/dev/null)" ]]; then
+            symbols+="❓"
+          fi
+
+          if ! git diff --quiet --ignore-submodules 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
+            symbols+="❗"
+          fi
+
+          if git rev-parse --abbrev-ref @{u} &>/dev/null; then
+            ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
+            behind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
+
+            if (( ahead > 0 )); then
+              symbols+="⬆️"
+            fi
+            if (( behind > 0 )); then
+              symbols+="⬇️"
+            fi
+          fi
+
+          echo " 🐱 ''${branch} ''${symbols}"
+        }
 
         function precmd() {
+          local gitinfo=$(git_prompt_info)
+          PROMPT=" %F{blue}%f  %F{red}%n%f%u:%F{yellow}%~%f''${gitinfo}
+          %F{green}→%f" 
+          
+          # Right prompt section
           local exit_code=$?
           local now_time=$(date +'%H:%M')
-          local duration=""
+          local parts=()
 
+          # Exit code check
           if [[ $exit_code -eq 0 ]]; then
-            RPROMPT="%F{green}✔%f"
+            parts+=("%F{green}✔%f")
           else
-            RPROMPT="%F{red}✗ $exit_code%f"
+            parts+=("%F{red}✗ $exit_code%f")
           fi
-
+          
+          # Timer
           if [[ -n "$CMD_TIMER" ]]; then
             local end_time=$EPOCHREALTIME
-            local elapsed=$(echo "$end_time - $CMD_TIMER" | bc)
-            RPROMPT="$RPROMPT %F{yellow}$(printf \"%.2fs\" \"$elapsed\")%f"
+            local elapsed=$(( $end_time - $CMD_TIMER ))
+
+            if ((elapsed >= 0.05)); then
+              local elapsed_fmt=$(printf "%.2f" "$elapsed")
+              parts+=("%F{yellow}''${elapsed_fmt}s%f")
+            fi
           fi
 
-          RPROMPT="$RPROMPT %F{white}$(date +'%H:%M')%f"
+          # Current time 
+          parts+=("%F{white}''${now_time}%f")
+          
+          RPROMPT="''${(j: | :)parts}"
         }
 
         [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
         bindkey '^P' history-beginning-search-backward
         bindkey '^N' history-beginning-search-forward
+
+        setopt HIST_IGNORE_DUPS
+        setopt HIST_IGNORE_ALL_DUPS
+        setopt HIST_EXPIRE_DUPS_FIRST
       '';
 
       #oh-my-zsh = {
