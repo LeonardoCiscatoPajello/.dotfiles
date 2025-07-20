@@ -48,7 +48,7 @@ in {
           fi
 
           if ! git diff --quiet --ignore-submodules 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
-            symbols+="%F{orange}!%f"
+            symbols+="%F{yellow}!%f"
           fi
 
           if git rev-parse --abbrev-ref @{u} &>/dev/null; then
@@ -68,7 +68,7 @@ in {
 
         function precmd() {
           local gitinfo=$(git_prompt_info)
-          PROMPT="%F{blue} %f  %F{purple}%n%f%u:%F{yellow}%~%f''${gitinfo}
+          PROMPT=" %F{blue} %f %F{magenta}%n%f%u:%F{blue}%~%f''${gitinfo}
           %F{green}→%f " 
           
           # Right prompt section
@@ -160,20 +160,20 @@ in {
         color9 #F38BA8
         
         # green
-        color2  #A6E3A1
-        color10 #A6E3A1
+        color2  #00FF7F
+        color10 #00FF7F
         
         # yellow 
-        color3  #F9E2AF
-        color11 #F9E2AF
+        color3  #FF7733
+        color11 #FF7733
         
         # blue
         color4  #89B4FA
         color12 #89B4FA
         
         #magenta
-        color5  #F5C2E7
-        color13 #F5C2E7
+        color5  #D183E8
+        color13 #D183E8
         
         # cyan
         color6  #94E2D5
