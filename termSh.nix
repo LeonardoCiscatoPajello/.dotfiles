@@ -44,11 +44,11 @@ in {
           branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD)
 
           if [[ -n "$(git ls-files --others --exclude-standard 2>/dev/null)" ]]; then
-            symbols+="❓"
+            symbols+="?"
           fi
 
           if ! git diff --quiet --ignore-submodules 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
-            symbols+="❗"
+            symbols+="!"
           fi
 
           if git rev-parse --abbrev-ref @{u} &>/dev/null; then
@@ -56,20 +56,20 @@ in {
             behind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
 
             if (( ahead > 0 )); then
-              symbols+="⬆️"
-            fi
+              symbols+="↑"
+            fi  
             if (( behind > 0 )); then
-              symbols+="⬇️"
+              symbols+="↓"
             fi
           fi
 
-          echo " 🐱 ''${branch} ''${symbols}"
+          echo "   ''${branch} ''${symbols}"
         }
 
         function precmd() {
           local gitinfo=$(git_prompt_info)
           PROMPT=" %F{blue}%f  %F{red}%n%f%u:%F{yellow}%~%f''${gitinfo}
-          %F{green}→%f" 
+          %F{green}→%f " 
           
           # Right prompt section
           local exit_code=$?
