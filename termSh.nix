@@ -44,11 +44,11 @@ in {
           branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD)
 
           if [[ -n "$(git ls-files --others --exclude-standard 2>/dev/null)" ]]; then
-            symbols+="?"
+            symbols+="%F{blue}?%f"
           fi
 
           if ! git diff --quiet --ignore-submodules 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
-            symbols+="!"
+            symbols+="%F{orange}!%f"
           fi
 
           if git rev-parse --abbrev-ref @{u} &>/dev/null; then
@@ -56,19 +56,19 @@ in {
             behind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
 
             if (( ahead > 0 )); then
-              symbols+="↑"
+              symbols+="%F{green}↑%f"
             fi  
             if (( behind > 0 )); then
-              symbols+="↓"
+              symbols+="%F{green}↓%f"
             fi
           fi
 
-          echo "   ''${branch} ''${symbols}"
+          echo " %F{green}  ''${branch}%f ''${symbols}"
         }
 
         function precmd() {
           local gitinfo=$(git_prompt_info)
-          PROMPT=" %F{blue}%f  %F{red}%n%f%u:%F{yellow}%~%f''${gitinfo}
+          PROMPT="%F{blue} %f  %F{purple}%n%f%u:%F{yellow}%~%f''${gitinfo}
           %F{green}→%f " 
           
           # Right prompt section
@@ -95,7 +95,7 @@ in {
           fi
 
           # Current time 
-          parts+=("%F{white}''${now_time}%f")
+          parts+=("''${now_time}")
           
           RPROMPT="''${(j: | :)parts}"
         }
@@ -150,28 +150,36 @@ in {
         mark2_background #CBA6F7
         mark3_foreground #1E1E2E
         mark3_background #74C7EC
-
+        
+        # black
         color0 #45475A
         color8 #585B70
 
+        # red
         color1 #F38BA8
         color9 #F38BA8
-
+        
+        # green
         color2  #A6E3A1
         color10 #A6E3A1
-
+        
+        # yellow 
         color3  #F9E2AF
         color11 #F9E2AF
-
+        
+        # blue
         color4  #89B4FA
         color12 #89B4FA
-
+        
+        #magenta
         color5  #F5C2E7
         color13 #F5C2E7
-
+        
+        # cyan
         color6  #94E2D5
         color14 #94E2D5
-
+        
+        # white
         color7  #BAC2DE
         color15 #A6ADC8
 
