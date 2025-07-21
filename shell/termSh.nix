@@ -30,6 +30,14 @@ in {
       initExtra = ''
         zmodload zsh/datetime
         zmodload zsh/mathfunc
+        
+        [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
+        bindkey '^P' history-beginning-search-backward
+        bindkey '^N' history-beginning-search-forward
+
+        setopt HIST_IGNORE_DUPS
+        setopt HIST_IGNORE_ALL_DUPS
+        setopt HIST_EXPIRE_DUPS_FIRST
       '';
 
       #oh-my-zsh = {
