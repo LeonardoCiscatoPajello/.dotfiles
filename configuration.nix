@@ -96,6 +96,12 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+  # Hyperland
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
