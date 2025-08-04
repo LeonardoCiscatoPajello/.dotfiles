@@ -2,12 +2,13 @@
 {
   programs.hyprland = {
     enable = true;
-  };
 
-  wayland.wondowManager.hyprland.settings = {
+  };
+  wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
     bind = [
       "$mod, F, exec, firefox"
+
     ]
       ++ (
         builtins.concatList (builtins.genList (i:
@@ -19,4 +20,4 @@
         ) 9)
       );
   };
-} # ⟦ΔΒ⟧
+}# ⟦ΔΒ⟧
