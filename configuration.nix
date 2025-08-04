@@ -136,6 +136,7 @@
     zsh-powerlevel10k
     bc
     ly
+    hyprland
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
