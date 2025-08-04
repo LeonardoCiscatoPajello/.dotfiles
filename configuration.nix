@@ -51,8 +51,11 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = false;
   services.desktopManager.plasma6.enable = true;
+
+  # Enable ly display Manager
+  services.displayManager.ly.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -132,6 +135,7 @@
     oh-my-zsh
     zsh-powerlevel10k
     bc
+    ly
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
