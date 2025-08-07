@@ -8,6 +8,7 @@ let Aliases = {
   conf = "cd ~/.config";
   h = "history";
   cl = "clear";
+  nf = "neofetch";
 };
 in {
   imports = [
