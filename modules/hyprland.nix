@@ -4,7 +4,7 @@
     "$mod" = "SUPER";
     bind = [
       "$mod, F, exec, firefox"
-
+      "$mod, D, exec, discord"
     ]
       ++ (
         builtins.concatLists (builtins.genList (i:

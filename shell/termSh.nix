@@ -9,6 +9,7 @@ let Aliases = {
   h = "history";
   cl = "clear";
   nf = "neofetch";
+  st = "git status";
 };
 in {
   imports = [

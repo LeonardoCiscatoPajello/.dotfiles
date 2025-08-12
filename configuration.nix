@@ -161,7 +161,7 @@
       rofi-wayland
       waybar
       wl-clipboard-rs
-      swww
+      hyprpaper 
       networkmanagerapplet
       hyprlock
       ];
