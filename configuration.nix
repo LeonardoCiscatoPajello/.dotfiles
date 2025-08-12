@@ -104,7 +104,7 @@
 
 # Enable touchpad support (enabled default in most desktopManager).
 # services.xserver.libinput.enable = true;
-
+  services.libinput.enable = true;
 # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lcp = {
     isNormalUser = true;
@@ -124,6 +124,7 @@
     enable = true;
     withUWSM = true;
   };
+  programs.waybar.enable = true;
 
 # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -162,6 +163,7 @@
       wl-clipboard-rs
       swww
       networkmanagerapplet
+      hyprlock
       ];
 
 # Some programs need SUID wrappers, can be configured further or are

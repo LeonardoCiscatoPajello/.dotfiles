@@ -1,12 +1,20 @@
 {config, pkgs, ...}:
 {
-  programs.rofi = {
-    enable = true;
-    theme = "gruvbox-dark-hard";
+programs.rofi = {
+    # enable = true;
+    terminal = "${pkgs.kitty}/bin/kitty";
+    extraConfig = {
+      modi = "drun,run";
+      show-icons = true;
+    };
+    theme = "gruvbox-dark";
   };
 
-  environment.systemPackages = with pkgs; [
-    rofi-wayland
-  ];
+  wayland.windowManager.hyprland.settings = {
 
+    bind = [
+      "SUPER, R, exec, rofi -show drun"
+      "SUPER, S, exec, rofi -show window"
+    ];
+  };
 }# ⟦ΔΒ⟧
