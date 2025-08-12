@@ -2,7 +2,17 @@
 {
   programs = {
     zsh = { 
+      syntaxHighlighting.enable = true;
       initExtra = ''
+        # Color codes for your palette
+        zmodload zsh/terminfo
+        local BLUE='%F{33}'
+        local FUCHSIA='%F{197}'      # fuchsia-rose (kitty #BC4A7C)
+        local LAVENDER='%F{255}'     # light lavender / white
+        local REDWOOD='%F{131}'      # redwood (kitty #A64449)
+        local SOFTGRAY='%F{250}'     # soft gray (kitty #b0aeb8)
+        local RESET='%f'
+
         function preexec() {
           export CMD_TIMER=$EPOCHREALTIME
         }
@@ -20,11 +30,11 @@
           branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD)
 
           if [[ -n "$(git ls-files --others --exclude-standard 2>/dev/null)" ]]; then
-            symbols+="%F{blue}?%f"
+            symbols+="''${BLUE}?''${RESET}"
           fi
 
           if ! git diff --quiet --ignore-submodules 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
-            symbols+="%F{yellow}!%f"
+            symbols+="''${REDWOOD}!''${RESET}"
           fi
 
           if git rev-parse --abbrev-ref @{u} &>/dev/null; then
@@ -32,20 +42,20 @@
             behind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
 
             if (( ahead > 0 )); then
-              symbols+="%F{green}↑%f"
-            fi  
+              symbols+="''${FUCHSIA}↑''${RESET}"
+            fi
             if (( behind > 0 )); then
-              symbols+="%F{green}↓%f"
+              symbols+="''${FUCHSIA}↓''${RESET}"
             fi
           fi
 
-          echo " %F{green}  ''${branch}%f ''${symbols}"
+          echo " ''${REDWOOD}  ''${branch}''${RESET}''${symbols}"
         }
 
         function precmd() {
           local gitinfo=$(git_prompt_info)
-          PROMPT=" %F{blue} %f %F{magenta}%n%f%u:%F{blue}%~%f''${gitinfo}
-          %F{green}→%f " 
+          PROMPT=" ''${BLUE}''${RESET} ''${LAVENDER}%n''${RESET}%u:''${FUCHSIA}%~''${RESET}''${gitinfo}
+          ''${FUCHSIA}→''${RESET} " 
 
           # Right prompt section
           local exit_code=$?
@@ -54,9 +64,9 @@
 
           # Exit code check
           if [[ $exit_code -eq 0 ]]; then
-            parts+=("%F{green}✔%f")
+            parts+=("''${FUCHSIA}✔''${RESET}")
           else
-            parts+=("%F{red}✗ $exit_code%f")
+            parts+=("''${REDWOOD}✗ $exit_code''${RESET}")
           fi
 
           # Timer
@@ -66,15 +76,22 @@
 
             if ((elapsed >= 0.05)); then
               local elapsed_fmt=$(printf "%.2f" "$elapsed")
-              parts+=("%F{yellow}''${elapsed_fmt}s%f")
+              parts+=("''${SOFTGRAY}''${elapsed_fmt}s''${RESET}")
             fi
           fi
 
           # Current time 
-          parts+=("''${now_time}")
-
+          parts+=("''${SOFTGRAY}''${now_time}''${RESET}")
           RPROMPT="''${(j: | :)parts}"
         }
+
+        # Zsh Autosuggestions & Syntax Highlighting
+        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#555577'
+        ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+        ZSH_HIGHLIGHT_STYLES[default]='fg=#ddddff'
+        ZSH_HIGHLIGHT_STYLES[command]='fg=#a090ff'
+        ZSH_HIGHLIGHT_STYLES[arg]='fg=#f7ecfc'
+
       '';
     };
   };
