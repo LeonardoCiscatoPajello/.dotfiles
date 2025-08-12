@@ -6,16 +6,15 @@ programs.waybar = {
       mainBar = {
         layer = "top";
         position = "top";
+        margin-bottom = -10;
+        spacing = 0;
         modules-left = [ "hyprland/workspaces" "tray" ];
         modules-center = [ "clock" ];
         modules-right = ["cpu" "memory" "network" "battery" ];
       };
     };
     style = '' 
-    * {
-        font-family: "JetBrains", monospace;
-        font-size: 11px;
-      }
+    window#waybar { background: red !important; }
     '';
   };
 } # ⟦ΔΒ⟧
