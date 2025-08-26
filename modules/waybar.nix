@@ -7,7 +7,7 @@
       mainBar = {
         layer = "top";
         position = "top";
-        separator = " | "
+        separator = " | ";
         margin-bottom = -10;
         spacing = 0;
         modules-left = [ "hyprland/workspaces" "tray" ];
