@@ -86,11 +86,11 @@
         }
 
         # Zsh Autosuggestions & Syntax Highlighting
-        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#555577'
-        ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-        ZSH_HIGHLIGHT_STYLES[default]='fg=#ddddff'
-        ZSH_HIGHLIGHT_STYLES[command]='fg=#a090ff'
-        ZSH_HIGHLIGHT_STYLES[arg]='fg=#f7ecfc'
+        # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#555577'
+        # ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+        # ZSH_HIGHLIGHT_STYLES[default]='fg=#ddddff'
+        # ZSH_HIGHLIGHT_STYLES[command]='fg=#a090ff'
+        # ZSH_HIGHLIGHT_STYLES[arg]='fg=#f7ecfc'
 
       '';
     };

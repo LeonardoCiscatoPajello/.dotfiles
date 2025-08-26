@@ -1,11 +1,13 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
     settings = {
       mainBar = {
         layer = "top";
         position = "top";
+        separator = " | "
         margin-bottom = -10;
         spacing = 0;
         modules-left = [ "hyprland/workspaces" "tray" ];
@@ -14,10 +16,11 @@
       };
     };
     style = '' 
+    
       @define-color accent #190A04; 
-    @define-color fg #4B4B46;
-    @define-color bg #222C2D;
-    @define-color bg-alt #1D2526;
+      @define-color fg #4B4B46;
+      @define-color bg #222C2D;
+      @define-color bg-alt #1D2526;
 
     * {
       font-size: 11px;
