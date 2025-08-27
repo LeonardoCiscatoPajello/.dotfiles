@@ -74,7 +74,7 @@ in
         if git rev-parse --verify refs/stash &>/dev/null; then
           symbols+="''${DIM}*''${RESET}"
         fi
-        echo " ''${BLUE}  ''${branch}''${RESET}''${symbols}"
+        echo " ''${BLUE} ''${branch}''${RESET} ''${symbols}"
       }
 
       function precmd() {
