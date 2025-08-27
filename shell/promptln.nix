@@ -73,7 +73,7 @@ in
         gitinfo=$(git_prompt_info)
 
         PROMPT=" ''${BLUE}''${RESET} ''${DIM}%n''${RESET}@''${DIM}%m''${RESET}:''${GOLD}%~''${RESET}''${gitinfo}
- ''${MAGENTA}→''${RESET} "
+        ''${MAGENTA}→''${RESET} "
 
         local ec=$?
         local parts=()
