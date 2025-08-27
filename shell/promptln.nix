@@ -18,13 +18,20 @@ in
       local GOLD_BRIGHT='%F{${c.yellowBright}}'
       local GREEN='%F{${c.ok}}'
       local RED='%F{${c.error}}'
+      local RBRIGHT='%F{${c.redBright}}'
       local BLUE='%F{${c.blue}}'
-      local ICE='%F{${c.blueBright}}'
+      local ICE='%F{${c.blueIce}}'
+      local IBRIGHT='%F{${c.blueIceBright}}'
+      local BBRIGHT='%F{${c.blueBright}}'
       local MAGENTA='%F{${c.accent2}}'
       local MBRIGHT='%F{${c.magentaBright}}'
+      local FUCHSIA='%F{${c.fuchsia}}'
+      local FBRIGHT='%F{${c.fuchsiaBright}}'
+      local PURPLE='%F{${c.purple}}'
+      local PBRIGHT='%F{${c.purpleBright}}'
       local RESET='%f'
 
-      # Export palette for other scripts (optional)
+      # Export palette for other scripts
       export THEME_FG='${c.fg}'
       export THEME_BG='${c.bg}'
       export THEME_ACC='${c.accent}'
@@ -50,11 +57,11 @@ in
 
         # Untracked
         if [[ -n "$(git ls-files --others --exclude-standard 2>/dev/null)" ]]; then
-          symbols+="''${BLUE}?''${RESET}"
+          symbols+="''${IBRIGHT}?''${RESET}"
         fi
         # Dirty
         if ! git diff --quiet --ignore-submodules 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
-          symbols+="''${RED}!''${RESET}"
+          symbols+="''${RBRIGHT}!''${RESET}"
         fi
         # Ahead / behind
         if git rev-parse --abbrev-ref @{u} &>/dev/null; then
@@ -67,15 +74,15 @@ in
         if git rev-parse --verify refs/stash &>/dev/null; then
           symbols+="''${DIM}*''${RESET}"
         fi
-        echo " ''${MBRIGHT}  ''${branch}''${RESET}''${symbols}"
+        echo " ''${BLUE}  ''${branch}''${RESET}''${symbols}"
       }
 
       function precmd() {
         local gitinfo
         gitinfo=$(git_prompt_info)
 
-        PROMPT=" ''${ICE}''${RESET} ''${GOLD}%n''${RESET}:''${BLUE}%~''${RESET}''${gitinfo}
-        ''${MAGENTA}→''${RESET} "
+        PROMPT=" ''${ICE}''${RESET} ''${PBRIGHT}%n''${RESET}:''${FUCHSIA}%~''${RESET}''${gitinfo}
+        ''${PBRIGHT}→''${RESET} "
 
         local ec=$?
         local parts=()
