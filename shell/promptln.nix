@@ -58,8 +58,8 @@ in
         if git rev-parse --abbrev-ref @{u} &>/dev/null; then
           ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
           behind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
-          (( ahead  > 0 )) && symbols+="''${MAGENTA}↑''${RESET}"
-          (( behind > 0 )) && symbols+="''${MAGENTA}↓''${RESET}"
+          (( ahead  > 0 )) && symbols+="''${GREEN}↑''${RESET}"
+          (( behind > 0 )) && symbols+="''${GREEN}↓''${RESET}"
         fi
         # Stash
         if git rev-parse --verify refs/stash &>/dev/null; then
@@ -72,7 +72,7 @@ in
         local gitinfo
         gitinfo=$(git_prompt_info)
 
-        PROMPT=" ''${BLUE}''${RESET} ''${DIM}%n''${RESET}@''${DIM}%m''${RESET}:''${GOLD}%~''${RESET}''${gitinfo}
+        PROMPT=" ''${BLUE}''${RESET} ''${GOLD}%n''${RESET}:''${BLUE}%~''${RESET}''${gitinfo}
         ''${MAGENTA}→''${RESET} "
 
         local ec=$?
