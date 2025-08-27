@@ -14,6 +14,7 @@ let Aliases = {
   gp = "git push";
   gl = "git pull";
   ga = "git add .";
+  delh = "truncate -s 0 ~/.zsh_history";
 };
 in {
   imports = [
