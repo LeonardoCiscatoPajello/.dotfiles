@@ -75,7 +75,19 @@
   #  /etc/profiles/per-user/lcp/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "nvim";
+    EDITOR = "nvim";
+  };
+
+  programs.yazi = {
+    enable = true;
+    settings = {
+      flavor = "ashen";
+      opener = {
+        edit = [
+          { run = "nvim \"$@\""; block = true; desc = "Edit with Neovim"; }
+        ];
+      };
+    };
   };
 
   # To add a config file to the home manager
