@@ -2,17 +2,19 @@
 {
   programs.waybar = {
     enable = true;
-    systemd.enable = true;
+    # systemd.enable = true;
     settings = {
       mainBar = {
         layer = "top";
         position = "top";
-        separator = " | ";
-        margin-bottom = -10;
-        spacing = 0;
-        modules-left = [ "hyprland/workspaces" "tray" ];
+        spacing = 10;
+        output = [
+          "eDP-1"
+          "HDMI-A-1"
+        ];
+        modules-left = [ "hyprland/workspaces" "backlight" ]; # "tray"
         modules-center = [ "clock" ];
-        modules-right = ["cpu" "memory" "network" "battery" ];
+        modules-right = ["cpu" "memory" "tray" "battery" ]; # "network"
       };
     };
     style = '' 
