@@ -11,7 +11,7 @@ in
         font_family JetBrainsMonoNL Nerd Font
         font_size 10
         background_blur 1
-        background_opacity 0.62
+        background_opacity 0.92
         
         foreground              ${c.fg}
         background              ${c.bg}

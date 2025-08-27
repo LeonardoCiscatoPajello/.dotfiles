@@ -33,7 +33,7 @@ in
       * {
         font-size: 11px;
         min-height: 0;
-        font-family: "JetBrainsMono Nerd Font";
+        font-family: JetBrainsMono Nerd Font;
       }
 
       window#waybar {

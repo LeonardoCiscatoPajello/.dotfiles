@@ -81,7 +81,7 @@ in
         local gitinfo
         gitinfo=$(git_prompt_info)
 
-        PROMPT=" ''${ICE}''${RESET} ''${PBRIGHT}%n''${RESET}:''${FUCHSIA}%~''${RESET}''${gitinfo}
+        PROMPT=" ''${IBRIGHT}''${RESET} ''${PBRIGHT}%n''${RESET}:''${FUCHSIA}%~''${RESET}''${gitinfo}
         ''${PBRIGHT}→''${RESET} "
 
         local ec=$?
@@ -104,7 +104,7 @@ in
           fi
         fi
 
-        parts+=("''${GOLD_BRIGHT}''$(date +'%H:%M')''${RESET}")
+        parts+=("''${GOLD}''$(date +'%H:%M')''${RESET}")
         RPROMPT="''${(j: | :)parts}"
       }
 
@@ -113,8 +113,8 @@ in
       ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
       typeset -A ZSH_HIGHLIGHT_STYLES
       ZSH_HIGHLIGHT_STYLES[default]="fg=${c.whiteBright}"
-      ZSH_HIGHLIGHT_STYLES[comment]="fg=${c.blackBright}"
-      ZSH_HIGHLIGHT_STYLES[command]="fg=${c.blueBright}"
+      ZSH_HIGHLIGHT_STYLES[comment]="fg=${c.white}"
+      ZSH_HIGHLIGHT_STYLES[command]="fg=${c.blueIce}"
       ZSH_HIGHLIGHT_STYLES[builtin]="fg=${c.blueBright}"
       ZSH_HIGHLIGHT_STYLES[function]="fg=${c.magenta}"
       ZSH_HIGHLIGHT_STYLES[alias]="fg=${c.magentaBright}"
