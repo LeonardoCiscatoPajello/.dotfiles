@@ -19,7 +19,9 @@ in
       local GREEN='%F{${c.ok}}'
       local RED='%F{${c.error}}'
       local BLUE='%F{${c.blue}}'
+      local ICE='%F{${c.blueBright}}'
       local MAGENTA='%F{${c.accent2}}'
+      local MBRIGHT='%F{${c.magentaBright}}'
       local RESET='%f'
 
       # Export palette for other scripts (optional)
@@ -65,14 +67,14 @@ in
         if git rev-parse --verify refs/stash &>/dev/null; then
           symbols+="''${DIM}*''${RESET}"
         fi
-        echo " ''${MAGENTA}  ''${branch}''${RESET}''${symbols}"
+        echo " ''${MBRIGHT}  ''${branch}''${RESET}''${symbols}"
       }
 
       function precmd() {
         local gitinfo
         gitinfo=$(git_prompt_info)
 
-        PROMPT=" ''${BLUE}''${RESET} ''${GOLD}%n''${RESET}:''${BLUE}%~''${RESET}''${gitinfo}
+        PROMPT=" ''${ICE}''${RESET} ''${GOLD}%n''${RESET}:''${BLUE}%~''${RESET}''${gitinfo}
         ''${MAGENTA}→''${RESET} "
 
         local ec=$?
@@ -103,12 +105,12 @@ in
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=${c.blackBright}"
       ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
       typeset -A ZSH_HIGHLIGHT_STYLES
-      ZSH_HIGHLIGHT_STYLES[default]="fg=${c.fgAlt}"
+      ZSH_HIGHLIGHT_STYLES[default]="fg=${c.whiteBright}"
       ZSH_HIGHLIGHT_STYLES[comment]="fg=${c.blackBright}"
       ZSH_HIGHLIGHT_STYLES[command]="fg=${c.blueBright}"
       ZSH_HIGHLIGHT_STYLES[builtin]="fg=${c.blueBright}"
       ZSH_HIGHLIGHT_STYLES[function]="fg=${c.magenta}"
-      ZSH_HIGHLIGHT_STYLES[alias]="fg=${c.magenta}"
+      ZSH_HIGHLIGHT_STYLES[alias]="fg=${c.magentaBright}"
       ZSH_HIGHLIGHT_STYLES[option]="fg=${c.cyanBright}"
       ZSH_HIGHLIGHT_STYLES[path]="fg=${c.accent}"
       ZSH_HIGHLIGHT_STYLES[globbing]="fg=${c.magentaBright}"
