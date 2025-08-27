@@ -1,53 +1,61 @@
 { config, pkgs, ... }:
+let 
+  palette = import ../palette.nix;
+  c = palette.colors;
+in
 {
   programs = {
     kitty = {
       extraConfig = ''
-        show_hyperlink_targets yes
+        # Basics
         font_family JetBrainsMonoNL Nerd Font
         font_size 10
         background_blur 1
-        background_opacity 0.37
+        background_opacity 0.62
         
-        foreground              #F7ECFC
-        background              #100513
-        selection_foreground    #100513
-        selection_background    #BC4A7C
+        foreground              ${c.fg}
+        background              ${c.bg}
+        selection_foreground    ${c.selectionFg}
+        selection_background    ${c.selectionBg}
 
-        cursor                  #BC4A7C
-        cursor_text_color       #100513
+        cursor                  ${c.cursor}
+        cursor_text_color       ${c.bg}
 
-        # Black
-        color0  #100513
-        color8  #270925
+        # ANSI (normal)
+        color0  ${c.black}
+        color1  ${c.red}
+        color2  ${c.green}
+        color3  ${c.yellow}
+        color4  ${c.blue}
+        color5  ${c.magenta}
+        color6  ${c.cyan}
+        color7  ${c.white}
 
-        # Red
-        color1  #A64449
-        color9  #A64449
+        # ANSI (bright)
+        color8  ${c.blackBright}
+        color9  ${c.redBright}
+        color10 ${c.greenBright}
+        color11 ${c.yellowBright}
+        color12 ${c.blueBright}
+        color13 ${c.magentaBright}
+        color14 ${c.cyanBright}
+        color15 ${c.whiteBright}
 
-        # Green (soft purple for harmony)
-        color2  #2C0935
-        color10 #2C0935
+        # Optional: tab bar / border accents
+        tab_bar_background      ${c.bgAlt}
+        active_tab_foreground   ${c.bg}
+        active_tab_background   ${c.accent}
+        inactive_tab_foreground ${c.fgAlt}
+        inactive_tab_background ${c.overlay}
 
-        # Yellow (soft lavender)
-        color3  #BC4A7C
-        color11 #BC4A7C
+        # URL / link styling
+        url_color ${c.accent2}
 
-        # Blue (blend of purple)
-        color4  #270925
-        color12 #270925
+        # Improve legibility of bold & italic
+        bold_font auto
+        bold_italic_font auto
 
-        # Magenta
-        color5  #BC4A7C
-        color13 #BC4A7C
-
-        # Cyan (blend of redwood and fuchsia)
-        color6  #A64449
-        color14 #A64449
-
-        # White (very light lavender for readability)
-        color7  #F7ECFC
-        color15 #F7ECFC
+        show_hyperlink_targets yes
       '';
     };
   };
