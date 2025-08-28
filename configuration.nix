@@ -32,16 +32,25 @@
   services = {
     greetd = {
       enable = true;
-      settings.default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet";
-        user = "greeter";
+      settings = {
+        # Enhanced tuigreet invocation
+        default_session = {
+          # uwsm wrapper (since programs.hyprland.withUWSM = true)
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet \
+            --greeting 'Welcome to LCP-NixOS' \
+            --time \
+            --remember \
+            --remember-user-session \
+            --asterisks \
+            --cmd 'uwsm start hyprland'";
+          user = "greeter";
+        };
       };
     };
-  
-  # Wayland-only Plasma removed
-  desktopManager.plasma6.enable = lib.mkForce false;
 
-  xserver.enable = false;
+    # Wayland-only Plasma removed
+    desktopManager.plasma6.enable = lib.mkForce false;
+    xserver.enable = false;
   };
 
   services.xserver.xkb = {
@@ -62,23 +71,31 @@
 
   services.libinput.enable = true;
 
-  users.users.lcp = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    description = "Leonardo Ciscato Pajello";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
+  users.users = {
+    lcp = {
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      description = "Leonardo Ciscato Pajello";
+      extraGroups = [ "networkmanager" "wheel" ];
+      packages = with pkgs; [
+        kdePackages.kate
+      ];
+    };
+
+    # Added greeter system user for greetd
+    greeter = {
+      isSystemUser = true;
+      description = "greetd greeter user";
+      shell = pkgs.bashInteractive;
+      home = "/var/lib/greetd";
+      createHome = true;
+    };
   };
 
-  # Hyprland compositor
   programs.hyprland = {
     enable = true;
     withUWSM = true;
   };
-  
-  # Waybar handled in HManager
   programs.waybar.enable = lib.mkForce false;
 
   nixpkgs.config.allowUnfree = true;
@@ -111,6 +128,5 @@
   ];
 
   system.stateVersion = "25.05";
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 } # ⟦ΔΒ⟧

@@ -32,7 +32,8 @@ in
 
     window {
       background: @background;
-      border: 2px solid @accent;
+      border: 2px solid;
+      border-color: @accent;
       border-radius: 8px;
       padding: 8px;
     }
@@ -56,7 +57,8 @@ in
     element selected {
       background: @selected-background;
       text-color: @selected-foreground;
-      border: 1px solid @accent2;
+      border: 1px solid; 
+      border-color: @accent2;
     }
     element urgent { text-color: ${c.error}; }
     element active { text-color: ${c.ok}; }
@@ -67,7 +69,8 @@ in
       placeholder-color: ${c.fgAlt};
       expand: true;
       padding: 6px;
-      border: 1px solid @border-color;
+      border: 1px solid;
+      border-color: @border-color;
       border-radius: 6px;
     }
 
@@ -75,10 +78,10 @@ in
       background: transparent;
       children: [ entry ];
       spacing: 6px;
-    }
       padding: 0 4px 6px 4px;
+    }
 
-      message { background: trasparent; }
+      message { background: transparent; }
       textbox { text-color: @foreground; }
 
     scrollbar {
