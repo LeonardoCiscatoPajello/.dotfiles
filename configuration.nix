@@ -124,7 +124,9 @@
     enable = true;
     withUWSM = true;
   };
-  programs.waybar.enable = true;
+  
+  # Temp overwrite disable
+  programs.waybar.enable = lib.mkForce false;
 
 # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

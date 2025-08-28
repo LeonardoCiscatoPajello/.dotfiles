@@ -6,6 +6,9 @@ in
 {
   programs.waybar = {
     enable = true;
+    # Optional: uncomment for automatic user service
+    # systemd.enable = true;
+
     settings = {
       mainBar = {
         layer = "top";
@@ -15,29 +18,61 @@ in
 
         modules-left   = [ "hyprland/workspaces" "backlight" ];
         modules-center = [ "clock" ];
-        modules-right  = [ "cpu" "memory" "tray" "battery" ];
+        modules-right  = [ "cpu" "memory" "tray" "custom/battery" ];
 
         backlight = {
-          # Uncomment and set if autodetect ever fails:
-          # device = "amdgpu_bl0";
-          format = "{icon} {percent}%";
-          format-alt = "{percent}%";
+          format = "{icon} ";
+          format-alt = "{icon} {percent}%";
           interval = 2;
-          "format-icons" = [ "󰃞" "󰃟" "󰃠" "󰃠" "󰃠" ];
+          "format-icons" = [ "󰃞" "󰃞" "󰃟" "󰃟" "󰃠" "󰃠" ];
         };
 
-        battery = {
-          bat = "BAT0";
-          adapter = "ADP1";
-          format = "{icon} {capacity}%";
-          format-charging = " {icon} {capacity}%";
-          format-full = " {capacity}%";
-          format-alt = "{capacity}%";
-          "format-icons" = [ "" "" "" "" "" ];
-          states = { warning = 25; critical = 10; };
-          interval = 15;
-          tooltip = true;
-          tooltip-format = "{capacity}%\nState: {status}\nTime: {time}";
+        "custom/battery" = {
+          interval = 2;
+          return-type = "json";
+          format = "{}";
+
+          # Right-click: cycle power profile
+          on-click-right = "${pkgs.bash}/bin/bash -c 'if command -v powerprofilesctl >/dev/null; then cur=$(powerprofilesctl get); case $cur in performance) nxt=balanced;; balanced) nxt=power-saver;; power-saver) nxt=performance;; *) nxt=balanced;; esac; powerprofilesctl set \"$nxt\"; fi'";
+
+          exec = ''
+            ${pkgs.bash}/bin/bash -c '
+              cap_file=/sys/class/power_supply/BAT0/capacity
+              status_file=/sys/class/power_supply/BAT0/status
+              if [ -r "$cap_file" ]; then cap=$(cat "$cap_file"); else cap="?"; fi
+              if [ -r "$status_file" ]; then st=$(cat "$status_file"); else st="Unknown"; fi
+
+              icon=""
+              if [ "$cap" != "?" ]; then
+                [ "$cap" -gt 15 ] && icon=""
+                [ "$cap" -gt 35 ] && icon=""
+                [ "$cap" -gt 60 ] && icon=""
+                [ "$cap" -gt 85 ] && icon=""
+              fi
+              case "$st" in
+                Charging) icon="" ;;
+                Full) icon="" ;;
+              esac
+
+              classes=$(echo "$st" | tr "A-Z" "a-z")
+              if [ "$cap" != "?" ]; then
+                if [ "$cap" -le 10 ]; then classes="$classes critical"
+                elif [ "$cap" -le 25 ]; then classes="$classes warning"
+                fi
+              fi
+
+              profile=""
+              if command -v powerprofilesctl >/dev/null; then
+                profile=$(powerprofilesctl get 2>/dev/null)
+              fi
+
+              tooltip="Status: $st"
+              [ -n "$profile" ] && tooltip="$tooltip\nProfile: $profile"
+
+              printf '"'"'{"text":"%s %s%%","tooltip":"%s","class":"%s","alt":"%s"}\n'"'"' \
+                "$icon" "$cap" "$(printf %s "$tooltip" | sed '"'"'s/"/\\"/g'"'"')" "$classes" "$profile"
+            '
+          '';
         };
       };
     };
@@ -85,10 +120,6 @@ in
 
       #clock { color: @accent; font-weight: 500; }
 
-      #battery.warning  { color: @warn; }
-      #battery.critical { color: @error; }
-      #battery.charging { color: @ok; }
-
       #cpu, #memory, #backlight { color: @fg-alt; }
 
       #tray {
@@ -97,6 +128,15 @@ in
         border-radius: 6px;
         padding: 0 4px;
       }
+
+      #custom-battery {
+        padding: 0 6px;
+      }
+      #custom-battery.charging    { color: @ok; }
+      #custom-battery.full        { color: @accent; }
+      #custom-battery.discharging.warning { color: @warn; }
+      #custom-battery.discharging.critical { color: @error; }
+      #custom-battery.unknown     { color: @fg-alt; }
     '';
   };
 } # ⟦ΔΒ⟧
