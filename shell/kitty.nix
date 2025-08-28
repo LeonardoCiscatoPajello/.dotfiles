@@ -4,8 +4,8 @@ let
   c = palette.colors;
 in
 {
-  programs = {
-    kitty = {
+  programs.kitty = {
+      enable = true;
       extraConfig = ''
         # Basics
         font_family JetBrainsMonoNL Nerd Font
@@ -54,9 +54,7 @@ in
         # Improve legibility of bold & italic
         bold_font auto
         bold_italic_font auto
-
         show_hyperlink_targets yes
       '';
     };
-  };
 } # ⟦ΔΒ⟧

@@ -47,18 +47,6 @@ in {
         setopt HIST_IGNORE_ALL_DUPS
         setopt HIST_EXPIRE_DUPS_FIRST
       '';
-
-      #oh-my-zsh = {
-       # enable = false;
-        #theme = "half-life"; #strug nanotech
-        #  plugins = [ "git" ];
-      #};
-    };
-
-    kitty = {
-      enable = true;
-      extraConfig = ''
-        '';
     };
 
     tmux = {
