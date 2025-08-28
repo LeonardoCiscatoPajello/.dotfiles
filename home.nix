@@ -3,9 +3,10 @@
 {
   imports = [
     ./shell/termSh.nix
-    ./modules/hyprland.nix
-    ./modules/rofi.nix
-    ./modules/waybar.nix
+    ./modules/hypr/hyprland.nix
+    ./modules/hypr/waybar.nix
+    ./modules/app/rofi.nix
+    ./modules/esthetics/wallpaper.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -88,6 +89,12 @@
         ];
       };
     };
+  };
+
+  my.wallpaper = {
+    enable = true;
+    image = "${config.home.homeDirectory}/Pictures/Back.jpg";
+    monitors = [ "eDP-1" "HDMI-A-1" ];
   };
 
   # To add a config file to the home manager

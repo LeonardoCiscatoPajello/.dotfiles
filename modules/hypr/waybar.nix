@@ -22,7 +22,7 @@ in
 
         backlight = {
           format = "{icon} ";
-          format-alt = "{icon} {percent}%";
+          # format-alt = "{icon} {percent}%"; momentaneamente tolto per semplicita'
           interval = 2;
           "format-icons" = [ "󰃞" "󰃞" "󰃟" "󰃟" "󰃠" "󰃠" ];
         };
