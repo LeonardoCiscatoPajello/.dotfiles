@@ -5,13 +5,13 @@ let
 in
 {
   options.my.wallpaper = {
-    enable = mkEnableOption "simple hyprpaper management";
+    enable = mkEnableOption "Simple hyprpaper management";
     image = mkOption {
       type = types.path;
       description = "Path to the wallpaper img.";
     };
     monitors = mkOption {
-      type = type.listOf type.str;
+      type = types.listOf types.str;
       default = [ "eDP-1" "HDMI-A-1" ];
       description = "List of monitors.";
     }; 

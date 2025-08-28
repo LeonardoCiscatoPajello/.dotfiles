@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  palette = import ../palette.nix;
+  palette = import ../esthetics/palette.nix;
   c = palette.colors;
   wsNums = map toString (lib.lists.range 1 9) ++ [ "0" ];
   wsBinds = builtins.concatLists (map

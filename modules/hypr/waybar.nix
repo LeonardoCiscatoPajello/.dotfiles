@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  palette = import ../palette.nix;
+  palette = import ../esthetics/palette.nix;
   c = palette.colors;
 in
 {
