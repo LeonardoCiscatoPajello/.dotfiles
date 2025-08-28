@@ -25,8 +25,8 @@ in
       monitor = [ ",preferred,auto,1" ];
 
       env = [
-        "XCURSOR_SIZE,12"
-        "HYPRCURSOR_SIZE,12"
+        "XCURSOR_SIZE,8"
+        "HYPRCURSOR_SIZE,8"
       ];
 
       # Cleaned exec-once (start.sh removed, split combined command)

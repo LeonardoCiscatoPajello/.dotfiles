@@ -47,7 +47,10 @@
         };
       };
     };
-
+    
+    # Power profiles
+    power-profiles-daemon.enable = true;
+    
     # Wayland-only Plasma removed
     desktopManager.plasma6.enable = lib.mkForce false;
     xserver.enable = false;
@@ -57,6 +60,7 @@
     layout = "us";
     variant = "";
   };
+  
 
   services.printing.enable = true;
 

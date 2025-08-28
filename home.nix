@@ -20,6 +20,8 @@
     firefox
     discord
     hyprpaper
+    pavucontrol
+    libnotify
   ];
 
   home.sessionVariables = {
