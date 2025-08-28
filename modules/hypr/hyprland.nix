@@ -19,14 +19,14 @@ in
     settings = {
       "$mod" = "SUPER";
       "$terminal" = "kitty";
-      "$fileManager" = "dolphin";
+      "$fileManager" = "yazi";
       "$menu" = "rofi -show drun";
 
-      monitor = [ ",preferred,auto,auto" ];
+      monitor = [ ",preferred,auto,1" ];
 
       env = [
-        "XCURSOR_SIZE,16"
-        "HYPRCURSOR_SIZE,16"
+        "XCURSOR_SIZE,12"
+        "HYPRCURSOR_SIZE,12"
       ];
 
       # Cleaned exec-once (start.sh removed, split combined command)
@@ -38,8 +38,8 @@ in
         gaps_in = 2;
         gaps_out = 2;
         border_size = 1;
-        "col.active_border" = "rgba(${c.accent}ff) rgba(${c.purpleBright}ff) 45deg";
-        "col.inactive_border" = "rgba(${c.border}aa)";
+        "col.active_border" = "rgba(c900ffff) rgba(330040ff) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
         resize_on_border = false;
         allow_tearing = false;
         layout = "dwindle";
@@ -139,8 +139,7 @@ in
           "$mod, mouse_down, workspace, e+1"
           "$mod, mouse_up, workspace, e-1"
           "$mod, mouse:272, movewindow"
-          "$mod, mouse:273, resizewindow"
-        ]
+        ] # "$mod, mouse:273, resizewindow" bindarlo con bindm = ....
         ++ wsBinds;
 
       bindel = [

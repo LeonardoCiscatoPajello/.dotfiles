@@ -13,10 +13,13 @@
   home.homeDirectory = "/home/lcp";
   home.stateVersion = "25.05";
 
+  nixpkgs.config.allowUnfree = true;
+  
   home.packages = with pkgs; [
     hello
     firefox
     discord
+    hyprpaper
   ];
 
   home.sessionVariables = {

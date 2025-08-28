@@ -100,7 +100,7 @@ in
       @define-color bgTrans rgba(16,16,20,0.88);
 
       * {
-        font-size: 10px;
+        font-size: 13px;
         min-height: 0;
         font-family: "JetBrainsMono Nerd Font", monospace;
       }
