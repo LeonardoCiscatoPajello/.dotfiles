@@ -28,7 +28,7 @@ in
         };
 
         "custom/battery" = {
-          interval = 2;
+          interval = 1;
           return-type = "json";
           format = "{}";
 
@@ -114,7 +114,7 @@ in
         font-weight: bold;
         background: @bg-alt;
       }
-      workspaces button:hover {
+        workspaces button:hover {
         background: @bg-alt;
       }
 

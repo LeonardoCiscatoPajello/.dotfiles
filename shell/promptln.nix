@@ -78,13 +78,13 @@ in
       }
 
       function precmd() {
+        local -i ec=$? 
         local gitinfo
         gitinfo=$(git_prompt_info)
 
         PROMPT=" ''${IBRIGHT}''${RESET} ''${PBRIGHT}%n''${RESET}:''${FUCHSIA}%~''${RESET}''${gitinfo}
         ''${PBRIGHT}→''${RESET} "
 
-        local ec=$?
         local parts=()
 
         if [[ $ec -eq 0 ]]; then
