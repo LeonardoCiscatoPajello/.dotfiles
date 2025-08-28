@@ -18,13 +18,21 @@ in
 
         modules-left   = [ "hyprland/workspaces" "backlight" ];
         modules-center = [ "clock" ];
-        modules-right  = [ "cpu" "memory" "tray" "custom/battery" ];
+        modules-right  = [ "cpu" "memory" "network" "tray" "custom/battery" ]; # Added "network" before tray
 
         backlight = {
           format = "{icon} ";
-          # format-alt = "{icon} {percent}%"; momentaneamente tolto per semplicita'
           interval = 2;
           "format-icons" = [ "󰃞" "󰃞" "󰃟" "󰃟" "󰃠" "󰃠" ];
+        };
+
+        network = {
+          interval = 5;
+          format-wifi = "  {essid} ({signalStrength}%)";
+          format-ethernet = "󰈀  {ipaddr}";
+          format-disconnected = "󰖪  Disconnected";
+          tooltip = true;
+          on-click = "${pkgs.kitty}/bin/kitty -e nmtui";
         };
 
         "custom/battery" = {
@@ -122,6 +130,11 @@ in
 
       #cpu, #memory, #backlight { color: @fg-alt; }
 
+      #network {
+        color: @accent2;
+        padding: 0 8px;
+      }
+
       #tray {
         background: @bg-alt;
         border: 1px solid @border;
@@ -140,3 +153,4 @@ in
     '';
   };
 } # ⟦ΔΒ⟧
+

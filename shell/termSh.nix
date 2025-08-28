@@ -15,6 +15,7 @@ let Aliases = {
   gl = "git pull";
   ga = "git add .";
   delh = "truncate -s 0 ~/.zsh_history";
+  hmsF = "home-manager switch --flake .";
 };
 in {
   imports = [

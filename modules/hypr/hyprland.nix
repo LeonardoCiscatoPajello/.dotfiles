@@ -17,28 +17,23 @@ in
     enable = true;
 
     settings = {
-      # ----- Variables / aliases -----
       "$mod" = "SUPER";
       "$terminal" = "kitty";
       "$fileManager" = "dolphin";
       "$menu" = "rofi -show drun";
 
-      # ----- Monitors -----
       monitor = [ ",preferred,auto,auto" ];
 
-      # ----- Environment -----
       env = [
         "XCURSOR_SIZE,16"
         "HYPRCURSOR_SIZE,16"
       ];
 
-      # ----- Autostart -----
+      # Cleaned exec-once (start.sh removed, split combined command)
       exec-once = [
-        "bash ~/.config/hypr/start.sh"
-        "waybar & hyprpaper"
+        "waybar"
       ];
 
-      # ----- General -----
       general = {
         gaps_in = 2;
         gaps_out = 2;
@@ -109,7 +104,6 @@ in
         disable_hyprland_logo = true;
       };
 
-      # ----- Input -----
       input = {
         kb_layout = "us";
         follow_mouse = 1;
@@ -124,7 +118,6 @@ in
         }
       ];
 
-      # ----- Keybinds -----
       bind =
         [
           "$mod, Q, exec, $terminal"
@@ -166,7 +159,6 @@ in
         ",XF86AudioPrev, exec, playerctl previous"
       ];
 
-      # ----- Window rules -----
       windowrule = [
         "suppressevent maximize, class:.*"
         "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
