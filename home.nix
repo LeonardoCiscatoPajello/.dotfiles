@@ -7,6 +7,7 @@
     ./modules/hypr/waybar.nix
     ./modules/app/rofi.nix
     ./modules/esthetics/wallpaper.nix
+    ./modules/esthetics/hyprcursor.nix
   ];
 
   home.username = "lcp";
@@ -28,6 +29,11 @@
 
   home.sessionVariables = {
     EDITOR = "nvim";
+    XCURSOR_THEME = "MyHypr";
+    HYPRCURSOR_THEME = "MyHypr";
+    XCURSOR_SIZE = toString config.my.hyprcursor.size;
+    HYPRCURSOR_SIZE = toString config.my.hyprcursor.size;
+    GDK_CORE_DEVICE_EVENTS = "1";
   };
 
   programs.yazi = {
@@ -39,6 +45,8 @@
       ];
     };
   };
+  
+  my.hyprcursor.enable = true;
 
   my.wallpaper = {
     enable = true;

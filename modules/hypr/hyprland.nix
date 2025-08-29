@@ -27,11 +27,6 @@ in
         "eDP-1, preferred, 1920x0,1"
       ];
 
-      env = [
-        "XCURSOR_SIZE,8"
-        "HYPRCURSOR_SIZE,8"
-      ];
-
       # Cleaned exec-once (start.sh removed, split combined command)
       exec-once = [
         "waybar"

@@ -11,6 +11,11 @@
   environment.shells = with pkgs; [ zsh bash ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
+  
+  environment.variables.XCURSOR_THEME = "MyHypr";
+  environment.variables.XCURSOR_SIZE = "24";
+  environment.etc."icons/default/index.theme".text = ''[Icon Theme]\nInherits=MyHypr\n'';
+
 
   networking.hostName = "LCP-NixOs";
   networking.networkmanager.enable = true;
