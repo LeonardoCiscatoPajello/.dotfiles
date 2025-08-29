@@ -30,28 +30,9 @@
   };
 
   services = {
-    greetd = {
-      enable = true;
-      settings = {
-        # Enhanced tuigreet invocation
-        default_session = {
-          # uwsm wrapper (since programs.hyprland.withUWSM = true)
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet \
-            --greeting 'Welcome to LCP-NixOS' \
-            --time \
-            --remember \
-            --remember-user-session \
-            --asterisks \
-            --cmd 'uwsm start hyprland'";
-          user = "greeter";
-        };
-      };
-    };
-    
+
     # Power profiles
     power-profiles-daemon.enable = true;
-    
-    # Wayland-only Plasma removed
     desktopManager.plasma6.enable = lib.mkForce false;
     xserver.enable = false;
   };
@@ -60,7 +41,6 @@
     layout = "us";
     variant = "";
   };
-  
 
   services.printing.enable = true;
 
@@ -85,16 +65,7 @@
         kdePackages.kate
       ];
     };
-
-    # Added greeter system user for greetd
-    greeter = {
-      isSystemUser = true;
-      description = "greetd greeter user";
-      shell = pkgs.bashInteractive;
-      home = "/var/lib/greetd";
-      createHome = true;
     };
-  };
 
   programs.hyprland = {
     enable = true;
@@ -126,7 +97,6 @@
     stylua
     zsh
     bc
-    greetd.tuigreet
     wl-clipboard-rs
     hyprlock
   ];

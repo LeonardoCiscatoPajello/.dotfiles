@@ -22,7 +22,10 @@ in
       "$fileManager" = "yazi";
       "$menu" = "rofi -show drun";
 
-      monitor = [ ",preferred,auto,1" ];
+      monitor = [ 
+        "HDMI-A-1,1920x1080@75,0x0,1" 
+        "eDP-1, preferred, 1920x0,1"
+      ];
 
       env = [
         "XCURSOR_SIZE,8"
