@@ -62,7 +62,7 @@ let
     fi
 
     srcLine="$(wpctl status | awk '/Sources:/{f=1;next} /Clients:/{f=0} f && /\*/')"
-    srcName="$(printf "%s" "$srcLine" | sed 's/.*\\*[^[]*\\[\\(.*\\)\\].*/\\1/')"
+    srcName="$(echo "$srcLine" | sed -E 's/^\*?[[:space:]]*[0-9]+\. (.*) \[vol:.*/\1/')"
     [ -z "$srcName" ] && srcName="Unknown"
 
     tooltip="Input: $srcName\nLevel: $pct%"
