@@ -139,7 +139,9 @@ in
           "$mod, mouse_down, workspace, e+1"
           "$mod, mouse_up, workspace, e-1"
           "$mod, mouse:272, movewindow"
-        ] # "$mod, mouse:273, resizewindow" bindarlo con bindm = ....
+          "$mod, O, exec, grim ~/Pictures/Screenshots/$(date).png"
+        ] # "$mod, mouse:273, resizewindow" bindarlo con bindm = .... 
+          # ", Print, exec, grim -g "$(slurp)" ~/Pictures/Screenshots/$(date).png"
         ++ wsBinds;
 
       bindel = [

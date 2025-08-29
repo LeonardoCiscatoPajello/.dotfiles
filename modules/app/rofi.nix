@@ -19,74 +19,99 @@ in
   home.file.".config/rofi/palette.rasi".text = ''
     * {
       font: "JetBrainsMonoNL Nerd Font 14";
-      background: ${c.bg};
-      foreground: ${c.fg};
-      selected-background: ${c.selectionBg};
-      selected-foreground: ${c.selectionFg};
-      accent: ${c.accent};
-      accent2: ${c.accent2};
-      border-color: ${c.border};
-      spacing: 4px;
-      padding: 6px;
+        bg0:    #212121F2;
+        bg1:    #2A2A2A;
+        bg2:    #3D3D3D80;
+        bg3:    #AB47BCF2;
+        fg0:    #E6E6E6;
+        fg1:    #FFFFFF;
+        fg2:    #969696;
+        fg3:    #3D3D3D;
+        purp:   #7B49AE;
+        background-color:   transparent;
+        text-color:         @fg0;
+
+        margin:     0px;
+        padding:    0px;
+        spacing:    0px;
     }
 
     window {
-      background: @background;
-      border: 2px solid;
-      border-color: @accent;
-      border-radius: 8px;
-      padding: 8px;
+        location:       north;
+        y-offset:       calc(50% - 176px);
+        width:          480;
+        border-radius:  24px;
+    
+        background-color:   @bg0;
     }
 
-    mainbox { background: transparent; }
-
-    listview {
-      background: transparent;
-      columns: 1;
-      scrollbar: true;
-      fixed-height: false;
-    }
-
-    element {
-      background: transparent;
-      text-color: @foreground;
-      padding: 4px 6px;
-      border-radius: 4px;
-    }
-
-    element selected {
-      background: @selected-background;
-      text-color: @selected-foreground;
-      border: 1px solid; 
-      border-color: @accent2;
-    }
-    element urgent { text-color: ${c.error}; }
-    element active { text-color: ${c.ok}; }
-
-    entry {
-      background: ${c.overlay};
-      text-color: @foreground;
-      placeholder-color: ${c.fgAlt};
-      expand: true;
-      padding: 6px;
-      border: 1px solid;
-      border-color: @border-color;
-      border-radius: 6px;
+    mainbox {
+        padding:    12px;
     }
 
     inputbar {
-      background: transparent;
-      children: [ entry ];
-      spacing: 6px;
-      padding: 0 4px 6px 4px;
+        background-color:   @bg1;
+        border-color:       @bg3;
+
+        border:         2px;
+        border-radius:  16px;
+
+        padding:    8px 16px;
+        spacing:    8px;
+        children:   [ entry ];
     }
 
-      message { background: transparent; }
-      textbox { text-color: @foreground; }
+    entry {
+        placeholder:        "Search";
+        placeholder-color:  @fg3;
+    }
 
-    scrollbar {
-      handle-color: @accent2;
-      handle-width: 6px;
+    message {
+        margin:             12px 0 0;
+        border-radius:      16px;
+        border-color:       @bg2;
+        background-color:   @bg2;
+    }
+
+    textbox {
+        padding:    8px 24px;
+    }
+
+    listview {
+        background-color:   transparent;
+
+        margin:     12px 0 0;
+        lines:      8;
+        columns:    1;
+
+        fixed-height: false;
+    }
+
+    element {
+        padding:        8px 16px;
+        spacing:        8px;
+        border-radius:  16px;
+    }
+
+    element normal active {
+        text-color: @bg3;
+    }
+
+    element alternate active {
+        text-color: @bg3;
+    }
+
+    element selected normal, element selected active {
+        background-color:   @bg3;
+    }
+
+    element-icon {
+        size:           1em;
+        vertical-align: 0.5;
+    }
+
+    element-text {
+        text-color: inherit;
     }
   '';
 } # ⟦ΔΒ⟧

@@ -22,6 +22,8 @@
     hyprpaper
     pavucontrol
     libnotify
+    grim
+    slurp
   ];
 
   home.sessionVariables = {

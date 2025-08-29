@@ -1,4 +1,4 @@
-{
+o
   colors = rec {
     # Core UI neutrals
     bg           = "#101014";
