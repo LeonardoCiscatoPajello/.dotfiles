@@ -19,7 +19,6 @@ in
     settings = {
       "$mod" = "SUPER";
       "$terminal" = "kitty";
-      "$fileManager" = "yazi";
       "$menu" = "rofi -show drun";
 
       monitor = [ 
@@ -108,7 +107,7 @@ in
         sensitivity = 0;
         touchpad = { natural_scroll = true; };
       };
-      gestures.workspace_swipe = false;
+      gestures.workspace_swipe = true;
       device = [
         {
           name = "epic-mouse-v1";
@@ -121,7 +120,7 @@ in
           "$mod, Q, exec, $terminal"
           "$mod, C, killactive,"
           "$mod, M, exit,"
-          "$mod, E, exec, $fileManager"
+          "$mod, E, exec, kitty yazi ~"
           "$mod, V, togglefloating,"
           "$mod, R, exec, $menu"
           "$mod, P, pseudo,"
