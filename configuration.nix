@@ -104,6 +104,7 @@
     bc
     wl-clipboard-rs
     hyprlock
+    rofi-wayland 
   ];
 
   system.stateVersion = "25.05";
