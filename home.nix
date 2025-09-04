@@ -26,6 +26,7 @@
     libnotify
     grim
     slurp
+    brightnessctl
   ];
 
   home.sessionVariables = {

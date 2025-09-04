@@ -3,18 +3,29 @@ let
   palette = import ../esthetics/palette.nix;
   c = palette.colors;
 
-  # Volume script (default sink)
+  # Volume script (default sink) – patched
   volumeScript = pkgs.writeShellScript "waybar-volume" ''
-    set -e
-    status="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null || true)"
+    set -u
+
+    get_status() {
+      wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null || true
+    }
+
+    get_star_sink_line() {
+      wpctl status | awk '/Sinks:/{f=1;next} /Sources:/{f=0} f && /\*/{print; exit}'
+    }
+
+    status="$(get_status)"
     if [ -z "$status" ]; then
       echo '{"text":" ?","class":"error","tooltip":"No default sink"}'
       exit 0
     fi
+
     muted=0
-    echo "$status" | grep -q MUTED && muted=1
+    if echo "$status" | grep -q 'MUTED'; then muted=1; fi
+
     vol="$(printf "%s" "$status" | awk '{print $2}')"
-    pct="$(awk -v v="$vol" 'BEGIN{printf "%d", v*100+0.5}')"
+    pct="$(awk -v v="$vol" 'BEGIN{ if (v+0<0) v=0; if (v>5) v=5; printf "%d", v*100+0.5 }')"
 
     if [ "$muted" -eq 1 ] || [ "$pct" -eq 0 ]; then
       icon=""; class="muted"
@@ -26,29 +37,42 @@ let
       fi
     fi
 
-    sinkLine="$(wpctl status | awk '/Sinks:/{f=1;next} /Sources:/{f=0} f && /\*/')"
-    sinkName="$(printf "%s" "$sinkLine" | sed 's/.*\*[^[]*\[\(.*\)\].*/\1/')"
+    sinkLine="$(get_star_sink_line)"
+    sinkName="$(printf "%s" "$sinkLine" | tr -d '│' | sed -E 's/.*\* *[0-9]+\.\s*//; s/\s*\[vol:.*//')"
     [ -z "$sinkName" ] && sinkName="Unknown"
 
     tooltip="Output: $sinkName\nVolume: $pct%"
     [ "$muted" -eq 1 ] && tooltip="$tooltip (muted)"
 
+    tooltipEscaped="$(printf "%s" "$tooltip" | sed ':a;N;$!ba;s/\\/\\\\/g; s/\n/\\n/g; s/"/\\"/g')"
+
     printf '{"text":"%s %s%%","class":"%s","tooltip":"%s"}\n' \
-      "$icon" "$pct" "$class" "$(printf "%s" "$tooltip" | sed 's/"/\\"/g')"
+      "$icon" "$pct" "$class" "$tooltipEscaped"
   '';
 
-  # Mic script (default source)
+  # Mic script (default source) – patched
   micScript = pkgs.writeShellScript "waybar-mic" ''
-    set -e
-    status="$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null || true)"
+    set -u
+
+    get_status() {
+      wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null || true
+    }
+
+    get_star_source_line() {
+      wpctl status | awk '/Sources:/{f=1;next} /Filters:/{f=0} f && /\*/{print; exit}'
+    }
+
+    status="$(get_status)"
     if [ -z "$status" ]; then
       echo '{"text":" ?","class":"error","tooltip":"No default source"}'
       exit 0
     fi
+
     muted=0
-    echo "$status" | grep -q MUTED && muted=1
+    if echo "$status" | grep -q 'MUTED'; then muted=1; fi
+
     vol="$(printf "%s" "$status" | awk '{print $2}')"
-    pct="$(awk -v v="$vol" 'BEGIN{printf "%d", v*100+0.5}')"
+    pct="$(awk -v v="$vol" 'BEGIN{ if (v+0<0) v=0; if (v>5) v=5; printf "%d", v*100+0.5 }')"
 
     if [ "$muted" -eq 1 ] || [ "$pct" -eq 0 ]; then
       icon=""; class="muted"
@@ -61,19 +85,21 @@ let
       fi
     fi
 
-    srcLine="$(wpctl status | awk '/Sources:/{f=1;next} /Clients:/{f=0} f && /\*/')"
-    srcName="$(echo "$srcLine" | sed -E 's/^\*?[[:space:]]*[0-9]+\. (.*) \[vol:.*/\1/')"
+    srcLine="$(get_star_source_line)"
+    srcName="$(printf "%s" "$srcLine" | tr -d '│' | sed -E 's/.*\* *[0-9]+\.\s*//; s/\s*\[vol:.*//')"
     [ -z "$srcName" ] && srcName="Unknown"
 
     tooltip="Input: $srcName\nLevel: $pct%"
     [ "$muted" -eq 1 ] && tooltip="$tooltip (muted)"
 
+    tooltipEscaped="$(printf "%s" "$tooltip" | sed ':a;N;$!ba;s/\\/\\\\/g; s/\n/\\n/g; s/"/\\"/g')"
+
     printf '{"text":"%s %s%%","class":"%s","tooltip":"%s"}\n' \
-      "$icon" "$pct" "$class" "$(printf "%s" "$tooltip" | sed 's/"/\\"/g')"
+      "$icon" "$pct" "$class" "$tooltipEscaped"
   '';
 
   # Device picker (sink | source)
-  pickerScript = pkgs.writeShellScript "waybar-audio-picker" ''
+pickerScript = pkgs.writeShellScript "waybar-audio-picker" ''
     mode="$1"
     [ -z "$mode" ] && mode="sink"
     list="$(wpctl status)"
@@ -87,30 +113,39 @@ let
     entries="$(printf "%s" "$list" | awk -v sec="$section" -v stop="$stop" '
       $0 ~ sec {f=1;next}
       $0 ~ stop {f=0}
-      f && /^[[:space:]]*[0-9]+/ {
-        id=$1
+      f && /^[[:space:]]*\*?[[:space:]]*[0-9]+\./ {
         line=$0
+        gsub(/│/,"",line)
+        # Trim leading space
+        sub(/^[[:space:]]*/,"",line)
         mark=""
-        if (line ~ /\*/) mark="*"
-        gsub(/\*/, "", line)
-        gsub(/^[[:space:]]+/, "", line)
-        match(line, /\[.*\]/)
-        if (RSTART>0) {
-          desc=substr(line, RSTART+1, RLENGTH-2)
-        } else {
-          desc=line
-        }
+        if (substr(line,1,1)=="*") { mark="*"; sub(/^\*/,"",line); sub(/^[[:space:]]*/,"",line) }
+        # Grab ID (up to first dot)
+        id=line
+        sub(/\..*/,"",id)
+        # Device description (remove leading id + dot + spaces)
+        desc=line
+        sub(/^[0-9]+\.[[:space:]]*/,"",desc)
+        # Cut off [vol: ...] part
+        sub(/\[vol:.*$/,"",desc)
+        gsub(/[[:space:]]+$/,"",desc)
         print id "\t" mark desc
       }')"
 
-    [ -z "$entries" ] && exit 0
+    if [ -z "$entries" ]; then
+      command -v notify-send >/dev/null && notify-send "Audio" "No $mode devices parsed"
+      exit 0
+    fi
+    if [ "$(printf "%s" "$entries" | wc -l)" -le 1 ]; then
+      # Only one device: still open rofi? Just notify instead.
+      command -v notify-send >/dev/null && notify-send "Audio" "Only one $mode device"
+      exit 0
+    fi
     choice="$(echo "$entries" | rofi -dmenu -p "Select $mode")"
     [ -z "$choice" ] && exit 0
     id="$(printf "%s" "$choice" | cut -f1)"
     wpctl set-default "$id"
-    if command -v notify-send >/dev/null; then
-      notify-send "Audio" "Default $mode -> $id"
-    fi
+    command -v notify-send >/dev/null && notify-send "Audio" "Default $mode -> $id"
     pkill -USR2 waybar 2>/dev/null || true
   '';
 
@@ -173,7 +208,6 @@ let
 
   # Brightness slider
   brightnessSlider = pkgs.writeShellScript "waybar-brightness-slider" ''
-    # Requires brightnessctl
     max=$(brightnessctl m 2>/dev/null)
     curRaw=$(brightnessctl g 2>/dev/null)
     [ -z "$max" ] || [ -z "$curRaw" ] && exit 0
@@ -215,6 +249,8 @@ in
           interval = 2;
           "format-icons" = [ "󰃞" "󰃞" "󰃟" "󰃟" "󰃠" "󰃠" ];
           on-click-middle = "${brightnessSlider}";
+          on-scroll-up = "brightnessctl set 5%+ -q";
+          on-scroll-down = "brightnessctl set 5%- -q";
         };
 
         cpu = {
@@ -232,13 +268,12 @@ in
         network = {
           interval = 5;
           format-wifi = "  {essid} ({signalStrength}%)";
-          format-ethernet = "󰈀  {ipaddr}";
+            format-ethernet = "󰈀  {ipaddr}";
           format-disconnected = "󰖪  Disconnected";
           tooltip = true;
           on-click = "${pkgs.kitty}/bin/kitty -e nmtui";
         };
 
-        # Volume (output)
         "custom/volume" = {
           interval = 2;
           return-type = "json";
@@ -251,7 +286,6 @@ in
           on-click-middle = "${volumeSlider}";
         };
 
-        # Microphone (input)
         "custom/mic" = {
           interval = 2;
           return-type = "json";
@@ -394,4 +428,4 @@ in
       #custom-battery.unknown     { color: @fg-alt; }
     '';
   };
-}
+} # ⟦ΔΒ⟧
