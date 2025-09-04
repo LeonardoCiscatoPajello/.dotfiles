@@ -27,7 +27,7 @@ let
     fi
 
     sinkLine="$(wpctl status | awk '/Sinks:/{f=1;next} /Sources:/{f=0} f && /\*/')"
-    sinkName="$(printf "%s" "$sinkLine" | sed 's/.*\\*[^[]*\\[\\(.*\\)\\].*/\\1/')"
+    sinkName="$(printf "%s" "$sinkLine" | sed 's/.*\*[^[]*\[\(.*\)\].*/\1/')"
     [ -z "$sinkName" ] && sinkName="Unknown"
 
     tooltip="Output: $sinkName\nVolume: $pct%"
@@ -94,7 +94,6 @@ let
         if (line ~ /\*/) mark="*"
         gsub(/\*/, "", line)
         gsub(/^[[:space:]]+/, "", line)
-        # extract bracketed description
         match(line, /\[.*\]/)
         if (RSTART>0) {
           desc=substr(line, RSTART+1, RLENGTH-2)
@@ -112,6 +111,88 @@ let
     if command -v notify-send >/dev/null; then
       notify-send "Audio" "Default $mode -> $id"
     fi
+    pkill -USR2 waybar 2>/dev/null || true
+  '';
+
+  # Slider helper (bar generator)
+  mkSliderBar = pkgs.writeShellScript "gen-bar" ''
+    # usage: gen-bar <percent>
+    p=$1
+    segs=20
+    filled=$(( (p*segs)/100 ))
+    [ $filled -gt $segs ] && filled=$segs
+    bar="$(printf '%*s' "$filled" "" | tr ' ' '#')"
+    unfilled=$(( segs - filled ))
+    bar="$bar$(printf '%*s' "$unfilled" "" | tr ' ' '-')"
+    printf "[%s] %3d%%" "$bar" "$p"
+  '';
+
+  # Output volume slider
+  volumeSlider = pkgs.writeShellScript "waybar-volume-slider" ''
+    cur=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null | awk '{print $2}')
+    curPct=$(awk -v v="$cur" 'BEGIN{printf "%d", v*100+0.5}')
+    list=""
+    for p in $(seq 0 5 100); do
+      line="$(${mkSliderBar} $p)"
+      if [ "$p" -eq "$curPct" ]; then
+        line="* $line"
+      else
+        line="  $line"
+      fi
+      list="$list$line"$'\n'
+    done
+    choice="$(printf "%s" "$list" | rofi -dmenu -p 'Output Vol' | sed 's/^* //;s/^  //')"
+    [ -z "$choice" ] && exit 0
+    sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
+    [ -z "$sel" ] && exit 0
+    wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ "''${sel}%"
+    pkill -USR2 waybar 2>/dev/null || true
+  '';
+
+  # Mic volume slider
+  micSlider = pkgs.writeShellScript "waybar-mic-slider" ''
+    cur=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null | awk '{print $2}')
+    curPct=$(awk -v v="$cur" 'BEGIN{printf "%d", v*100+0.5}')
+    list=""
+    for p in $(seq 0 5 100); do
+      line="$(${mkSliderBar} $p)"
+      if [ "$p" -eq "$curPct" ]; then
+        line="* $line"
+      else
+        line="  $line"
+      fi
+      list="$list$line"$'\n'
+    done
+    choice="$(printf "%s" "$list" | rofi -dmenu -p 'Mic Level' | sed 's/^* //;s/^  //')"
+    [ -z "$choice" ] && exit 0
+    sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
+    [ -z "$sel" ] && exit 0
+    wpctl set-volume -l 1 @DEFAULT_AUDIO_SOURCE@ "''${sel}%"
+    pkill -USR2 waybar 2>/dev/null || true
+  '';
+
+  # Brightness slider
+  brightnessSlider = pkgs.writeShellScript "waybar-brightness-slider" ''
+    # Requires brightnessctl
+    max=$(brightnessctl m 2>/dev/null)
+    curRaw=$(brightnessctl g 2>/dev/null)
+    [ -z "$max" ] || [ -z "$curRaw" ] && exit 0
+    curPct=$(( curRaw * 100 / max ))
+    list=""
+    for p in $(seq 0 5 100); do
+      line="$(${mkSliderBar} $p)"
+      if [ "$p" -eq "$curPct" ]; then
+        line="* $line"
+      else
+        line="  $line"
+      fi
+      list="$list$line"$'\n'
+    done
+    choice="$(printf "%s" "$list" | rofi -dmenu -p 'Brightness' | sed 's/^* //;s/^  //')"
+    [ -z "$choice" ] && exit 0
+    sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
+    [ -z "$sel" ] && exit 0
+    brightnessctl set "''${sel}%" -q
   '';
 in
 {
@@ -133,9 +214,9 @@ in
           format = "{icon} ";
           interval = 2;
           "format-icons" = [ "󰃞" "󰃞" "󰃟" "󰃟" "󰃠" "󰃠" ];
+          on-click-middle = "${brightnessSlider}";
         };
 
-        # CPU & Memory enhanced (icons + states)
         cpu = {
           format = " {usage}%";
           interval = 2;
@@ -144,7 +225,7 @@ in
 
         memory = {
           format = " {percentage}%";
-            interval = 5;
+          interval = 5;
           states = { warning = 70; critical = 85; };
         };
 
@@ -167,7 +248,7 @@ in
           on-scroll-up = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+";
           on-scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
           on-click-right = "${pickerScript} sink";
-          on-click-middle = "pavucontrol &";
+          on-click-middle = "${volumeSlider}";
         };
 
         # Microphone (input)
@@ -177,10 +258,10 @@ in
           format = "{}";
           exec = "${micScript}";
           on-click = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-          on-scroll-up = "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+";
+          on-scroll-up = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SOURCE@ 5%+";
           on-scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-";
           on-click-right = "${pickerScript} source";
-          on-click-middle = "pavucontrol &";
+          on-click-middle = "${micSlider}";
         };
 
         "custom/battery" = {
