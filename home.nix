@@ -23,10 +23,11 @@
     discord
     hyprpaper
     pavucontrol
-    libnotify
+    brightnessctl
     grim
     slurp
-    brightnessctl
+    wl-clipboard
+    libnotify
   ];
 
   home.sessionVariables = {
