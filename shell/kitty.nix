@@ -10,7 +10,7 @@ in
         # Basics
         font_family JetBrainsMonoNL Nerd Font
         font_size 13
-        background_blur 1
+        background_blur 1 
         background_opacity 0.92
         
         foreground              ${c.fg}
@@ -55,6 +55,8 @@ in
         bold_font auto
         bold_italic_font auto
         show_hyperlink_targets yes
+
+        allow_remote_control yes
       '';
     };
 } # ⟦ΔΒ⟧

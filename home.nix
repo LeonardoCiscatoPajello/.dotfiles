@@ -6,6 +6,7 @@
     ./modules/hypr/hyprland.nix
     ./modules/hypr/waybar.nix
     ./modules/app/rofi.nix
+    ./modules/app/yazi.nix
     ./modules/esthetics/wallpaper.nix
     ./modules/esthetics/hyprcursor.nix
   ];
@@ -34,16 +35,6 @@
     XCURSOR_SIZE = toString config.my.hyprcursor.size;
     HYPRCURSOR_SIZE = toString config.my.hyprcursor.size;
     GDK_CORE_DEVICE_EVENTS = "1";
-  };
-
-  programs.yazi = {
-    enable = true;
-    settings = {
-      flavor = "ashen";
-      opener.edit = [
-        { run = "nvim \"$@\""; block = true; desc = "Edit with Neovim"; }
-      ];
-    };
   };
   
   my.hyprcursor.enable = true;
