@@ -120,7 +120,7 @@ in
           "$mod, Q, exec, $terminal"
           "$mod, C, killactive,"
           "$mod, M, exit,"
-          "$mod, E, exec, kitty yazi-smart"
+          "$mod, E, exec, kitty -e yazi"
           "$mod, V, togglefloating,"
           "ALT, SPACE, exec, $menu"
           "$mod, P, pseudo,"
