@@ -84,6 +84,7 @@
     neovim
     wget
     git
+    lazygit
     tmux
     fprintd
     htop
@@ -94,7 +95,6 @@
     ripgrep
     fd
     nodejs
-    python3
     gcc
     zip
     unzip
@@ -104,6 +104,44 @@
     bc
     wl-clipboard-rs
     hyprlock
+    xournalpp
+    
+    # --- C / C++ Toolchain & Build ---
+    clang
+    clang-tools            # includes clangd, clang-tidy, etc
+    cmake
+    gnumake
+    pkg-config
+    bear                   # generate compile_commands.json
+    lldb
+    gdb
+    ccache                 # optional build cache
+
+    # --- Python Tooling ---
+    python3Full            # richer stdlib; remove plain python3 above
+    pipx                   # isolated app installs
+    black
+    ruff
+    python313Packages.debugpy                # debugger backend
+    pyright
+    jdt-language-server
+
+    # --- Java Tooling ---
+    jdk21
+    maven
+    google-java-format
+
+    # --- General Dev / Editing Helpers ---
+    universal-ctags
+    shellcheck
+    shfmt
+
+    # Added for LaTeX & tooling
+    texlive.combined.scheme-medium
+    ghostscript
+    zathura
+    luarocks
+    # biber  # (uncomment if citations with biblatex need it)
   ];
 
   system.stateVersion = "25.05";
