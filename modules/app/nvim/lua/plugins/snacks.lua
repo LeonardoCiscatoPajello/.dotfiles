@@ -20,34 +20,6 @@ return {
   ███████████ ███    ███ █████████ █████ █████ ████ █████  
  ██████  █████████████████████ ████ █████ █████ ████ ██████ 
         ]],
-        sections = {
-          { section = "header" },
-          {
-            title = "Repositories",
-            section = "items",
-            items = function()
-              local ok, gd = pcall(require, "git_dashboard")
-              if not ok then return {} end
-              return gd.get_local_repos({
-                "~/.dotfiles",
-                "~/Documents/University",
-                "~/.archive/UniArchive",
-                "~/Projects",
-              }, 8)
-            end,
-          },
-          {
-            title = "Recent Commits",
-            section = "items",
-            items = function()
-              if vim.fn.isdirectory(".git") == 0 then return {} end
-              local ok, gd = pcall(require, "git_dashboard")
-              if not ok then return {} end
-              return gd.get_recent_commits(6)
-            end,
-          },
-          { section = "keys" },
-        },
       },
     },
     indent = { enabled = true },
@@ -60,7 +32,6 @@ return {
     statuscolumn = { enabled = true },
     words = { enabled = true },
   },
-
   keys = {
     { "<leader>sf",       function() Snacks.scratch() end,            desc = "Toggle Scratch Buffer" },
     { "<leader>S",        function() Snacks.scratch.select() end,     desc = "Select Scratch Buffer" },
@@ -71,24 +42,5 @@ return {
     { "<leader>fb",       function() Snacks.picker.buffers() end,     desc = "Buffers" },
     { "<leader>fg",       function() Snacks.picker.grep() end,        desc = "Grep Files" },
     { "<C-n>",            function() Snacks.explorer() end,           desc = "Explorer" },
-
-    { "<leader>rp", function()
-        local gd = require("git_dashboard")
-        local items = gd.get_local_repos({
-          "~/.dotfiles",
-          "~/Documents/University",
-          "~/.archive/UniArchive",
-          "~/Projects",
-        }, 20)
-        Snacks.picker.pick("Repositories", { items = items })
-      end, desc = "Repo Picker" },
-    { "<leader>gc", function()
-        local gd = require("git_dashboard")
-        Snacks.picker.pick("Commits", { items = gd.get_recent_commits(30) })
-      end, desc = "Recent Commits" },
-    { "<leader>gS", function()
-        local gd = require("git_dashboard")
-        Snacks.picker.pick("Changes", { items = gd.get_changed_files() })
-      end, desc = "Git Changed Files" },
   }
 }
