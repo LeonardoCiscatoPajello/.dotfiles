@@ -40,6 +40,22 @@
     power-profiles-daemon.enable = true;
     desktopManager.plasma6.enable = lib.mkForce false;
     xserver.enable = false;
+
+    # Login Manager
+    greetd = {
+      enable = true;
+      vt = 7;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet \
+          --time \
+          --remember \
+          --asterisks \
+          --cmd 'uwsm start hyprland'";
+          user = "greeter";
+        };
+      };
+    };
   };
 
   services.xserver.xkb = {
@@ -105,6 +121,8 @@
     wl-clipboard-rs
     hyprlock
     xournalpp
+    greetd.tuigreet
+
     
     # --- C / C++ Toolchain & Build ---
     clang
@@ -143,6 +161,8 @@
     luarocks
     # biber  # (uncomment if citations with biblatex need it)
   ];
+
+
 
   system.stateVersion = "25.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
