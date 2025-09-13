@@ -20,25 +20,26 @@ return {
   ███████████ ███    ███ █████████ █████ █████ ████ █████  
  ██████  █████████████████████ ████ █████ █████ ████ ██████ 
         ]],
-        
         sections = {
           { section = "header" },
           {
             title = "Repositories",
-            section = function()
+            section = "items",
+            items = function()
               local ok, gd = pcall(require, "git_dashboard")
               if not ok then return {} end
               return gd.get_local_repos({
                 "~/.dotfiles",
                 "~/Documents/University",
-		"~/.archive/UniArchive",
+                "~/.archive/UniArchive",
                 "~/Projects",
               }, 8)
             end,
           },
           {
             title = "Recent Commits",
-            section = function()
+            section = "items",
+            items = function()
               if vim.fn.isdirectory(".git") == 0 then return {} end
               local ok, gd = pcall(require, "git_dashboard")
               if not ok then return {} end
@@ -71,10 +72,14 @@ return {
     { "<leader>fg",       function() Snacks.picker.grep() end,        desc = "Grep Files" },
     { "<C-n>",            function() Snacks.explorer() end,           desc = "Explorer" },
 
-    -- Added Git dashboard integrations
     { "<leader>rp", function()
         local gd = require("git_dashboard")
-        local items = gd.get_local_repos({ "~/.dotfiles", "~/.archive/UniArchive", "~/Documents/University", "~/Projects" }, 20)
+        local items = gd.get_local_repos({
+          "~/.dotfiles",
+          "~/Documents/University",
+          "~/.archive/UniArchive",
+          "~/Projects",
+        }, 20)
         Snacks.picker.pick("Repositories", { items = items })
       end, desc = "Repo Picker" },
     { "<leader>gc", function()

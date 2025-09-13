@@ -13,20 +13,28 @@ end
 
 local function head_mtime(p)
   local st = uv.fs_stat(p .. "/.git/HEAD")
-  return st and st.mtime.sec or 0
+  return (st and st.mtime and st.mtime.sec) or 0
 end
 
--- Scan base directories (depth 1)
+-- Scan base directories (depth 1) and include base if it’s a repo
 function M.get_local_repos(base_dirs, max_repos)
   local now = vim.loop.now() / 1000
-  -- reuse cached for 30s
-  if now - cache.repos.ts < 30 and #cache.repos.items > 0 then
+  if now - cache.repos.ts < 15 and #cache.repos.items > 0 then
     return cache.repos.items
   end
 
   local repos = {}
   for _, base in ipairs(base_dirs) do
     local expanded = vim.fn.expand(base)
+
+    if is_git_dir(expanded) then
+      table.insert(repos, {
+        path = expanded,
+        name = vim.fn.fnamemodify(expanded, ":t"),
+        mtime = head_mtime(expanded),
+      })
+    end
+
     local handle = uv.fs_scandir(expanded)
     if handle then
       while true do
@@ -38,7 +46,7 @@ function M.get_local_repos(base_dirs, max_repos)
           table.insert(repos, {
             path = full,
             name = name,
-            mtime = head_mtime(full)
+            mtime = head_mtime(full),
           })
         end
       end
@@ -47,7 +55,7 @@ function M.get_local_repos(base_dirs, max_repos)
 
   table.sort(repos, function(a, b) return a.mtime > b.mtime end)
   local items = {}
-  local limit = math.min(#repos, max_repos)
+  local limit = math.min(#repos, max_repos or #repos)
   for i = 1, limit do
     local r = repos[i]
     table.insert(items, {
@@ -82,7 +90,6 @@ function M.get_recent_commits(n)
         icon = "",
         desc = msg,
         action = function()
-          -- open commit diff in a scratch buffer
           vim.cmd("tabnew")
           vim.api.nvim_buf_set_option(0, "buftype", "nofile")
           vim.api.nvim_buf_set_option(0, "bufhidden", "wipe")

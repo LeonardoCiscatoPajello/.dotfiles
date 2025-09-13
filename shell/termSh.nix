@@ -15,6 +15,7 @@ let Aliases = {
   gp = "git push";
   gl = "git pull";
   ga = "git add .";
+  gcmt = "git commit -a";
   delh = "truncate -s 0 ~/.zsh_history";
   hmsF = "home-manager switch --flake .";
   hm = "home-manager";
