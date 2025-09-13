@@ -30,7 +30,8 @@ return {
               if not ok then return {} end
               return gd.get_local_repos({
                 "~/.dotfiles",
-                "~/University",
+                "~/Documents/University",
+		"~/.archive/UniArchive",
                 "~/Projects",
               }, 8)
             end,
@@ -73,7 +74,7 @@ return {
     -- Added Git dashboard integrations
     { "<leader>rp", function()
         local gd = require("git_dashboard")
-        local items = gd.get_local_repos({ "~/.dotfiles", "~Documents/University", "~/Projects" }, 20)
+        local items = gd.get_local_repos({ "~/.dotfiles", "~/.archive/UniArchive", "~/Documents/University", "~/Projects" }, 20)
         Snacks.picker.pick("Repositories", { items = items })
       end, desc = "Repo Picker" },
     { "<leader>gc", function()
