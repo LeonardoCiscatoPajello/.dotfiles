@@ -99,7 +99,7 @@ let
   '';
 
   # Device picker (sink | source)
-pickerScript = pkgs.writeShellScript "waybar-audio-picker" ''
+  pickerScript = pkgs.writeShellScript "waybar-audio-picker" ''
     mode="$1"
     [ -z "$mode" ] && mode="sink"
     list="$(wpctl status)"
@@ -180,7 +180,7 @@ pickerScript = pkgs.writeShellScript "waybar-audio-picker" ''
     [ -z "$choice" ] && exit 0
     sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
     [ -z "$sel" ] && exit 0
-    wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ "''${sel}%"
+    wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ "$sel%"
     pkill -USR2 waybar 2>/dev/null || true
   '';
 
@@ -202,7 +202,7 @@ pickerScript = pkgs.writeShellScript "waybar-audio-picker" ''
     [ -z "$choice" ] && exit 0
     sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
     [ -z "$sel" ] && exit 0
-    wpctl set-volume -l 1 @DEFAULT_AUDIO_SOURCE@ "''${sel}%"
+    wpctl set-volume -l 1 @DEFAULT_AUDIO_SOURCE@ "$sel%"
     pkill -USR2 waybar 2>/dev/null || true
   '';
 
@@ -226,7 +226,7 @@ pickerScript = pkgs.writeShellScript "waybar-audio-picker" ''
     [ -z "$choice" ] && exit 0
     sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
     [ -z "$sel" ] && exit 0
-    brightnessctl set "''${sel}%" -q
+    brightnessctl set "$sel%" -q
   '';
 in
 {
@@ -268,7 +268,7 @@ in
         network = {
           interval = 5;
           format-wifi = "  {essid} ({signalStrength}%)";
-            format-ethernet = "󰈀  {ipaddr}";
+          format-ethernet = "󰈀  {ipaddr}";
           format-disconnected = "󰖪  Disconnected";
           tooltip = true;
           on-click = "${pkgs.kitty}/bin/kitty -e nmtui";
@@ -366,12 +366,15 @@ in
         font-family: "JetBrainsMono Nerd Font", monospace;
       }
 
+      /* Make the bar background minimal so module bubbles stand out */
       window#waybar {
-        background-color: @bgTrans;
-        border-bottom: 1px solid @border;
+        background-color: transparent;
+        border-bottom: none;
         color: @fg;
+        padding: 6px 12px;
       }
 
+      /* Workspace buttons keep minimal style */
       workspaces button {
         padding: 6px 10px;
         color: @fg;
@@ -382,41 +385,81 @@ in
         color: @accent;
         font-weight: bold;
         background: @bg-alt;
+        border-radius: 8px;
       }
       workspaces button:hover {
         background: @bg-alt;
       }
-
-      #backlight { color: @blueIce; }
-
-      #clock { color: @accent; font-weight: 500; }
-
-      #cpu, #memory { color: @accent2; }
-      #cpu.warning, #memory.warning { color: @warn; }
-      #cpu.critical, #memory.critical { color: @error; }
-
-      #network {
-        color: @accent2;
-        padding: 0 8px;
-      }
-
-      #custom-volume, #custom-mic {
-        padding: 0 6px;
-        color: @fg-alt;
-      }
-      #custom-volume.low, #custom-mic.low { color: @fg-alt; }
-      #custom-volume.mid, #custom-mic.mid { color: @accent; }
-      #custom-volume.high, #custom-mic.high { color: @accent2; }
-      #custom-volume.over { color: @warn; }
-      #custom-volume.muted, #custom-mic.muted { color: @error; }
-
-      #tray {
-        background: @bg-alt;
+      /* Bubbled modules: rounded buttons with subtle shadow (avoid unsupported props) */
+      #custom-volume > button,
+      #custom-mic > button,
+      #backlight > button,
+      #cpu > button,
+      #memory > button,
+      #network > button,
+      #custom-battery > button {
+        background-color: @bg-alt;
+        color: @fg;
+        padding: 6px 10px;
+        margin: 0 6px;
+        border-radius: 999px;
         border: 1px solid @border;
-        border-radius: 6px;
-        padding: 0 4px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+        transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+        min-width: 38px;
       }
 
+      /* if you need small spacing between icon and text, use span margin */
+      #custom-volume > button span,
+      #custom-mic > button span,
+      #backlight > button span {
+        margin-left: 6px;
+        margin-right: 0;
+        padding: 0;
+      }
+
+      /* Hover / active */
+      #custom-volume > button:hover,
+      #custom-mic > button:hover,
+      #backlight > button:hover,
+      #cpu > button:hover,
+      #memory > button:hover,
+      #network > button:hover,
+      #custom-battery > button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+        background-color: @bg;
+      }
+
+      /* State colors (your modules already set classes: low/mid/high/over/muted) */
+      #custom-volume.mid > button,
+      #custom-mic.mid > button { border-color: @accent; color: @accent; }
+      #custom-volume.high > button,
+      #custom-mic.high > button { border-color: @accent2; color: @accent2; }
+      #custom-volume.over > button { border-color: @warn; color: @warn; }
+      #custom-volume.muted > button,
+      #custom-mic.muted > button { border-color: @error; color: @error; }
+
+      /* Tray adjustments */
+      #tray {
+        margin-left: 8px;
+        margin-right: 6px;
+        padding: 4px;
+        background: transparent;
+        border: none;
+      }
+
+      /* Make icon/text compact inside bubble */
+      #custom-volume button span,
+      #custom-mic button span,
+      #backlight button span { padding: 0; margin: 0; }
+
+      /* Small screens: reduce padding */
+      @media (max-width: 1200px) {
+        #custom-volume > button, #custom-mic > button { padding: 4px 8px; margin: 0 4px; }
+      }
+
+      /* Keep some existing battery color rules */
       #custom-battery {
         padding: 0 6px;
         color: @blueIce;

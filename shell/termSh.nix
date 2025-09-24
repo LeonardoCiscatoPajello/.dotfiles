@@ -7,6 +7,7 @@ let Aliases = {
   dot = "cd ~/.dotfiles";
   conf = "cd ~/.config";
   uni = "cd ~/Documents/University";
+  unia = "cd ~/.archive/UniArchive";
   h = "history";
   cl = "clear";
   nf = "neofetch";

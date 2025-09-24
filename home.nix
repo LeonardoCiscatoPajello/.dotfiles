@@ -39,7 +39,7 @@
     GDK_CORE_DEVICE_EVENTS = "1";
   };
   
-  my.hyprcursor.enable = true;
+   # my.hyprcursor.enable = true;
 
   my.wallpaper = {
     enable = true;

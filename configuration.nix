@@ -122,6 +122,7 @@
     hyprlock
     xournalpp
     greetd.tuigreet
+    phinger-cursors
 
     
     # --- C / C++ Toolchain & Build ---
@@ -148,6 +149,7 @@
     jdk21
     maven
     google-java-format
+    jetbrains.idea-community #WARNING: Unload after Exam!
 
     # --- General Dev / Editing Helpers ---
     universal-ctags
