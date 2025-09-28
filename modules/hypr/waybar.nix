@@ -437,12 +437,12 @@ in
       }
 
       /* Make inner modules transparent and spaced */
-      #group-audio > *,
-      #group-sys  > * {
-       background-color: transparent;
-       border: none;
-       padding: 0 10px;      /* inner spacing */
-       margin: 0 4px;
+      #group-audio > box > *,
+      #group-sys  > box > * {
+        background-color: transparent;
+        border: none;
+        padding: 0 12px;     /* inner spacing between items */
+        margin: 0 6px;
       }
 
       /* Hover: subtle color change */
