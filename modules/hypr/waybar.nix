@@ -10,7 +10,6 @@ let
     get_status() {
       wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null || true
     }
-
     get_star_sink_line() {
       wpctl status | awk '/Sinks:/{f=1;next} /Sources:/{f=0} f && /\*/{print; exit}'
     }
@@ -239,9 +238,9 @@ in
         spacing = 10;
         output = [ "eDP-1" "HDMI-A-1" ];
 
-        modules-left   = [ "hyprland/workspaces" "backlight" "custom/volume" "custom/mic" ];
+        modules-left   = [ "hyprland/workspaces" "backlight" "group/audio" ];
         modules-center = [ "clock" ];
-        modules-right  = [ "tray" "cpu" "memory" "network" "custom/battery" ];
+        modules-right  = [ "tray" "group/sys"  "network" "custom/battery" ];
 
         backlight = {
           format = "{icon} ";
@@ -262,6 +261,11 @@ in
           format = " {percentage}%";
           interval = 5;
           states = { warning = 70; critical = 85; };
+        };
+
+        "group/sys" = {
+          orientation = "horizontal";
+          modules = [ "cpu" "memory" ];
         };
 
         network = {
@@ -295,6 +299,11 @@ in
           on-scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-";
           on-click-right = "${pickerScript} source";
           on-click-middle = "${micSlider}";
+        };
+
+        "group/audio" = {
+          orientation = "horizontal";
+          modules = [ "custom/volume" "custom/mic" ];
         };
 
         "custom/battery" = {
@@ -389,14 +398,10 @@ in
         background: @bg-alt;
       }
 
-      /* Bubble modules (safe properties only) */
+      /* Bubble modules */
       #clock,
       #tray,
-      #custom-volume,
-      #custom-mic,
       #backlight,
-      #cpu,
-      #memory,
       #network,
       #custom-battery {
         background-color: @bg-alt;
@@ -407,6 +412,22 @@ in
         border: 1px solid @border;
         min-width: 38px;
       }
+
+      /* Bubble groups */
+      #group-sys,
+      #group-audio{
+        background-color: @bg-alt;
+        color: @fg;
+        padding: 6px 10px;
+        margin: 0 6px;
+        border-radius: 16px;
+        border: 1px solid @border;
+        min-width: 38px;
+      }
+
+
+      /* Spacing Inside bubbles */
+      #group-sys > #cpu, #group-sys > #memory { padding: 0 8px; }
 
       /* Hover: subtle color change */
       #custom-volume:hover,
@@ -425,7 +446,7 @@ in
       #custom-mic.low { color: @fg-alt; border-color: @border; }
 
       #custom-volume.mid,
-      #custom-mic.mid { color: @accent; border-color: @accent; }
+      #custom-mic.mid { color: @fg-alt; border-color: @accent; }
 
       #custom-volume.high,
       #custom-mic.high { color: @accent2; border-color: @accent2; }
@@ -435,7 +456,7 @@ in
       #custom-volume.muted,
       #custom-mic.muted { color: @error; border-color: @error; }
 
-      /* CPU & memory states (from your config) */
+      /* CPU & memory states */
       #cpu { color: @accent2; }
       #memory { color: @accent2; }
       #cpu.warning, #memory.warning { color: @warn; }
