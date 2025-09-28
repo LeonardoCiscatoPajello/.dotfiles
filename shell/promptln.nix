@@ -100,7 +100,7 @@ in
           if (( elapsed >= 0.05 )); then
             local fmt
             fmt=$(printf "%.2f" "$elapsed")
-            parts+=("''${DIM}''${fmt}s''${RESET}")
+            parts+=("''${FG}''${fmt}s''${RESET}")
           fi
         fi
 

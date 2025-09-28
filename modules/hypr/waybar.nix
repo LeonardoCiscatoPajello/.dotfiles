@@ -137,7 +137,6 @@ let
       exit 0
     fi
     if [ "$(printf "%s" "$entries" | wc -l)" -le 1 ]; then
-      # Only one device: still open rofi? Just notify instead.
       command -v notify-send >/dev/null && notify-send "Audio" "Only one $mode device"
       exit 0
     fi
@@ -240,9 +239,9 @@ in
         spacing = 10;
         output = [ "eDP-1" "HDMI-A-1" ];
 
-        modules-left   = [ "hyprland/workspaces" "backlight" "tray" ];
+        modules-left   = [ "hyprland/workspaces" "backlight" "custom/volume" "custom/mic" ];
         modules-center = [ "clock" ];
-        modules-right  = [ "custom/volume" "custom/mic" "cpu" "memory" "network" "custom/battery" ];
+        modules-right  = [ "tray" "cpu" "memory" "network" "custom/battery" ];
 
         backlight = {
           format = "{icon} ";
@@ -344,14 +343,13 @@ in
         };
       };
     };
-
     style = ''
       @define-color accent  ${c.accent};
       @define-color accent2 ${c.accent2};
       @define-color fg      ${c.fg};
       @define-color fg-alt  ${c.fgAlt};
       @define-color bg      ${c.bg};
-      @define-color bg-alt  ${c.overlay};
+      @define-color bg-alt  ${c.blackBright};
       @define-color border  ${c.border};
       @define-color warn    ${c.warn};
       @define-color error   ${c.error};
@@ -366,7 +364,7 @@ in
         font-family: "JetBrainsMono Nerd Font", monospace;
       }
 
-      /* Make the bar background minimal so module bubbles stand out */
+      /* Minimal bar; let modules appear as bubbles */
       window#waybar {
         background-color: transparent;
         border-bottom: none;
@@ -374,73 +372,79 @@ in
         padding: 6px 12px;
       }
 
-      /* Workspace buttons keep minimal style */
+      /* Workspaces */
       workspaces button {
         padding: 6px 10px;
         color: @fg;
         background: transparent;
         border: none;
+        border-radius: 8px;
       }
       workspaces button.focused {
         color: @accent;
         font-weight: bold;
         background: @bg-alt;
-        border-radius: 8px;
       }
       workspaces button:hover {
         background: @bg-alt;
       }
-      /* Bubbled modules: rounded buttons with subtle shadow (avoid unsupported props) */
-      #custom-volume > button,
-      #custom-mic > button,
-      #backlight > button,
-      #cpu > button,
-      #memory > button,
-      #network > button,
-      #custom-battery > button {
+
+      /* Bubble modules (safe properties only) */
+      #clock,
+      #tray,
+      #custom-volume,
+      #custom-mic,
+      #backlight,
+      #cpu,
+      #memory,
+      #network,
+      #custom-battery {
         background-color: @bg-alt;
         color: @fg;
         padding: 6px 10px;
         margin: 0 6px;
-        border-radius: 999px;
+        border-radius: 16px;
         border: 1px solid @border;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-        transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
         min-width: 38px;
       }
 
-      /* if you need small spacing between icon and text, use span margin */
-      #custom-volume > button span,
-      #custom-mic > button span,
-      #backlight > button span {
-        margin-left: 6px;
-        margin-right: 0;
-        padding: 0;
-      }
-
-      /* Hover / active */
-      #custom-volume > button:hover,
-      #custom-mic > button:hover,
-      #backlight > button:hover,
-      #cpu > button:hover,
-      #memory > button:hover,
-      #network > button:hover,
-      #custom-battery > button:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+      /* Hover: subtle color change */
+      #custom-volume:hover,
+      #custom-mic:hover,
+      #backlight:hover,
+      #cpu:hover,
+      #memory:hover,
+      #network:hover,
+      #custom-battery:hover {
         background-color: @bg;
+        border-color: @border;
       }
 
-      /* State colors (your modules already set classes: low/mid/high/over/muted) */
-      #custom-volume.mid > button,
-      #custom-mic.mid > button { border-color: @accent; color: @accent; }
-      #custom-volume.high > button,
-      #custom-mic.high > button { border-color: @accent2; color: @accent2; }
-      #custom-volume.over > button { border-color: @warn; color: @warn; }
-      #custom-volume.muted > button,
-      #custom-mic.muted > button { border-color: @error; color: @error; }
+      /* State colors */
+      #custom-volume.low,
+      #custom-mic.low { color: @fg-alt; border-color: @border; }
 
-      /* Tray adjustments */
+      #custom-volume.mid,
+      #custom-mic.mid { color: @accent; border-color: @accent; }
+
+      #custom-volume.high,
+      #custom-mic.high { color: @accent2; border-color: @accent2; }
+
+      #custom-volume.over { color: @warn; border-color: @warn; }
+
+      #custom-volume.muted,
+      #custom-mic.muted { color: @error; border-color: @error; }
+
+      /* CPU & memory states (from your config) */
+      #cpu { color: @accent2; }
+      #memory { color: @accent2; }
+      #cpu.warning, #memory.warning { color: @warn; }
+      #cpu.critical, #memory.critical { color: @error; }
+
+      /* Network */
+      #network { color: @accent2; padding: 6px 10px; }
+
+      /* Tray */
       #tray {
         margin-left: 8px;
         margin-right: 6px;
@@ -449,21 +453,14 @@ in
         border: none;
       }
 
-      /* Make icon/text compact inside bubble */
-      #custom-volume button span,
-      #custom-mic button span,
-      #backlight button span { padding: 0; margin: 0; }
+      /* Clock */
+      #clock{ color: @accent; }
 
-      /* Small screens: reduce padding */
-      @media (max-width: 1200px) {
-        #custom-volume > button, #custom-mic > button { padding: 4px 8px; margin: 0 4px; }
-      }
+      /* Backlight */
+      #backlight { color: @blueIce; }
 
-      /* Keep some existing battery color rules */
-      #custom-battery {
-        padding: 0 6px;
-        color: @blueIce;
-      }
+      /* Battery state coloring (keep your semantics) */
+      #custom-battery { color: @blueIce; }
       #custom-battery.charging    { color: @ok; }
       #custom-battery.full        { color: @accent; }
       #custom-battery.discharging.warning { color: @warn; }
