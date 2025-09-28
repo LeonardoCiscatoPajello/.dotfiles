@@ -401,7 +401,6 @@ in
       /* Bubble modules */
       #clock,
       #tray,
-      #backlight,
       #network,
       #custom-battery {
         background-color: @bg-alt;
@@ -413,17 +412,27 @@ in
         min-width: 38px;
       }
 
-      /* Bubble groups */
-      #group-sys,
-      #group-audio
-      #group-sys > box,
-      #group-audio > box {
+      #backlight {
         background-color: @bg-alt;
         color: @fg;
-        padding: 6px 10px;
+        padding: 6px 8px;
         margin: 0 6px;
         border-radius: 16px;
         border: 1px solid @border;
+        min-width: 38px;
+      }
+
+      /* Bubble groups */
+      #group-audio,
+      #group-sys,
+      #group-audio > box,
+      #group-sys  > box {
+        background-color: @bg-alt;
+        color: @fg;
+        border: 1px solid @border;
+        border-radius: 16px;
+        padding: 6px 10px;   /* bubble padding */
+        margin: 0 6px;       /* gap from other bubbles */
         min-width: 38px;
       }
 
@@ -432,8 +441,8 @@ in
       #group-sys  > * {
        background-color: transparent;
        border: none;
-       padding: 0 8px;      /* inner spacing */
-       margin: 0 2px;
+       padding: 0 10px;      /* inner spacing */
+       margin: 0 4px;
       }
 
       /* Hover: subtle color change */
