@@ -43,7 +43,7 @@
 
   my.wallpaper = {
     enable = true;
-    image = "${config.home.homeDirectory}/Pictures/Back2.png";
+    image = "${config.home.homeDirectory}/Pictures/Back.jpg";
     monitors = [ "eDP-1" "HDMI-A-1" ];
   };
 

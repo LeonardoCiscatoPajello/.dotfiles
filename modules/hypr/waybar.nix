@@ -415,18 +415,16 @@ in
       #backlight {
         background-color: @bg-alt;
         color: @fg;
-        padding: 6px 8px;
+        padding: 2px 2px;
         margin: 0 6px;
         border-radius: 16px;
         border: 1px solid @border;
-        min-width: 38px;
+        min-width: 30px;
       }
 
       /* Bubble groups */
       #group-audio,
-      #group-sys,
-      #group-audio > box,
-      #group-sys  > box {
+      #group-sys {
         background-color: @bg-alt;
         color: @fg;
         border: 1px solid @border;
@@ -434,6 +432,16 @@ in
         padding: 6px 10px;   /* bubble padding */
         margin: 0 6px;       /* gap from other bubbles */
         min-width: 38px;
+
+        box-shadow: none;
+      }
+
+      #group-audio box,
+      #group-sys box {
+        background-color: transparent;
+        border: none;
+        margin: 0;
+        padding: 0;
       }
 
       /* Make inner modules transparent and spaced */
@@ -441,8 +449,8 @@ in
       #group-sys  > box > * {
         background-color: transparent;
         border: none;
-        padding: 0 12px;     /* inner spacing between items */
-        margin: 0 6px;
+        padding: 0 8px;     /* inner spacing between items */
+        margin: 0 4px;
       }
 
       /* Hover: subtle color change */
