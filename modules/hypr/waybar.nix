@@ -235,7 +235,7 @@ in
       mainBar = {
         layer = "top";
         position = "top";
-        spacing = 10;
+        spacing = 8;
         output = [ "eDP-1" "HDMI-A-1" ];
 
         modules-left   = [ "hyprland/workspaces" "backlight" "group/audio" ];
@@ -415,7 +415,9 @@ in
 
       /* Bubble groups */
       #group-sys,
-      #group-audio{
+      #group-audio
+      #group-sys > box,
+      #group-audio > box {
         background-color: @bg-alt;
         color: @fg;
         padding: 6px 10px;
@@ -425,18 +427,28 @@ in
         min-width: 38px;
       }
 
-
-      /* Spacing Inside bubbles */
-      #group-sys > #cpu, #group-sys > #memory { padding: 0 8px; }
+      /* Make inner modules transparent and spaced */
+      #group-audio > *,
+      #group-sys  > * {
+       background-color: transparent;
+       border: none;
+       padding: 0 8px;      /* inner spacing */
+       margin: 0 2px;
+      }
 
       /* Hover: subtle color change */
-      #custom-volume:hover,
-      #custom-mic:hover,
       #backlight:hover,
-      #cpu:hover,
-      #memory:hover,
       #network:hover,
       #custom-battery:hover {
+        background-color: @bg;
+        border-color: @border;
+      }
+
+      /* Hover: Bubbles-Groups */
+      #group-audio:hover,
+      #group-sys:hover,
+      #group-audio > box:hover,
+      #group-sys > box:hover {
         background-color: @bg;
         border-color: @border;
       }
