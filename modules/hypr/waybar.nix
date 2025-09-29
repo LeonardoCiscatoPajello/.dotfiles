@@ -235,12 +235,12 @@ in
       mainBar = {
         layer = "top";
         position = "top";
-        spacing = 8;
+        spacing = 4;
         output = [ "eDP-1" "HDMI-A-1" ];
 
         modules-left   = [ "hyprland/workspaces" "group/sel" ];
         modules-center = [ "clock" ];
-        modules-right  = [ "tray" "network" "custom/sys" ];
+        modules-right  = [ "tray" "network" "group/sys" ];
 
         backlight = {
           format = "{icon} ";
@@ -249,9 +249,7 @@ in
           on-click-middle = "${brightnessSlider}";
           on-scroll-up = "brightnessctl set 5%+ -q";
           on-scroll-down = "brightnessctl set 5%- -q";
-        };
-
-        cpu = {
+        }; cpu = {
           format = " {usage}%";
           interval = 2;
           states = { warning = 70; critical = 90; };
@@ -263,10 +261,6 @@ in
           states = { warning = 70; critical = 85; };
         };
 
-        "group/sys" = {
-          orientation = "horizontal";
-          modules = [ "cpu" "memory" "custom/battery" ];
-        };
 
         network = {
           interval = 5;
@@ -303,7 +297,7 @@ in
 
         "group/sel" = {
           orientation = "horizontal";
-          modules = [ "custom/volume" "custom/mic" ];
+          modules = [ "custom/volume" "custom/mic" "backlight" ];
         };
 
         "custom/battery" = {
@@ -313,189 +307,202 @@ in
           on-click-right = "${pkgs.bash}/bin/bash -c 'if command -v powerprofilesctl >/dev/null; then cur=$(powerprofilesctl get); case $cur in performance) nxt=balanced;; balanced) nxt=power-saver;; power-saver) nxt=performance;; *) nxt=balanced;; esac; powerprofilesctl set \"$nxt\"; fi'";
           exec = ''
             ${pkgs.bash}/bin/bash -c '
-              cap_file=/sys/class/power_supply/BAT0/capacity
-              status_file=/sys/class/power_supply/BAT0/status
-              if [ -r "$cap_file" ]; then cap=$(cat "$cap_file"); else cap="?"; fi
+            cap_file=/sys/class/power_supply/BAT0/capacity
+            status_file=/sys/class/power_supply/BAT0/status
+            if [ -r "$cap_file" ]; then cap=$(cat "$cap_file"); else cap="?"; fi
               if [ -r "$status_file" ]; then st=$(cat "$status_file"); else st="Unknown"; fi
 
-              icon=""
-              if [ "$cap" != "?" ]; then
-                [ "$cap" -gt 15 ] && icon=""
-                [ "$cap" -gt 35 ] && icon=""
-                [ "$cap" -gt 60 ] && icon=""
-                [ "$cap" -gt 85 ] && icon=""
-              fi
-              case "$st" in
-                Charging) icon="" ;;
-                Full) icon="" ;;
-              esac
+                icon=""
+                  if [ "$cap" != "?" ]; then
+                    [ "$cap" -gt 15 ] && icon=""
+                      [ "$cap" -gt 35 ] && icon=""
+                        [ "$cap" -gt 60 ] && icon=""
+                          [ "$cap" -gt 85 ] && icon=""
+                            fi
+          case "$st" in
+                              Charging) icon="" ;;
+                              Full) icon="" ;;
+                              esac
 
-              classes=$(echo "$st" | tr "A-Z" "a-z")
-              if [ "$cap" != "?" ]; then
-                if [ "$cap" -le 10 ]; then classes="$classes critical"
-                elif [ "$cap" -le 25 ]; then classes="$classes warning"
-                fi
-              fi
+                                classes=$(echo "$st" | tr "A-Z" "a-z")
+                                if [ "$cap" != "?" ]; then
+                                  if [ "$cap" -le 10 ]; then classes="$classes critical"
+                                    elif [ "$cap" -le 25 ]; then classes="$classes warning"
+                                      fi
+                                      fi
 
-              profile=""
-              if command -v powerprofilesctl >/dev/null; then
-                profile=$(powerprofilesctl get 2>/dev/null)
-              fi
+                                      profile=""
+                                      if command -v powerprofilesctl >/dev/null; then
+                                        profile=$(powerprofilesctl get 2>/dev/null)
+                                          fi
 
-              tooltip="Status: $st"
-              [ -n "$profile" ] && tooltip="$tooltip\nProfile: $profile"
+                                          tooltip="Status: $st"
+                                          [ -n "$profile" ] && tooltip="$tooltip\nProfile: $profile"
 
-              printf '"'"'{"text":"%s %s%%","tooltip":"%s","class":"%s","alt":"%s"}\n'"'"' \
-                "$icon" "$cap" "$(printf %s "$tooltip" | sed '"'"'s/"/\\"/g'"'"')" "$classes" "$profile"
-            '
-          '';
+                                          printf '"'"'{"text":"%s %s%%","tooltip":"%s","class":"%s","alt":"%s"}\n'"'"' \
+                                            "$icon" "$cap" "$(printf %s "$tooltip" | sed '"'"'s/"/\\"/g'"'"')" "$classes" "$profile"
+                                            '
+                                            '';
+        };
+        "group/sys" = {
+          orientation = "horizontal";
+          modules = [ "cpu" "memory" "custom/battery" ];
         };
       };
     };
     style = ''
+
       @define-color accent  ${c.accent};
-      @define-color accent2 ${c.accent2};
-      @define-color fg      ${c.fg};
-      @define-color fg-alt  ${c.fgAlt};
-      @define-color bg      ${c.bg};
-      @define-color bg-alt  ${c.blackBright};
-      @define-color border  ${c.border};
-      @define-color warn    ${c.warn};
-      @define-color error   ${c.error};
-      @define-color ok      ${c.ok};
-      @define-color blueIce ${c.blueIce};
+    @define-color accent2 ${c.accent2};
+    @define-color fg      ${c.fg};
+    @define-color fg-alt  ${c.fgAlt};
+    @define-color bg      ${c.bg};
+    @define-color bg-alt  ${c.blackBright};
+    @define-color border  ${c.border};
+    @define-color warn    ${c.warn};
+    @define-color error   ${c.error};
+    @define-color ok      ${c.ok};
+    @define-color blueIce ${c.blueIce};
 
-      @define-color bgTrans rgba(16,16,20,0.88);
+    @define-color bgTrans rgba(16,16,20,0.88);
 
-      * {
-        font-size: 13px;
-        min-height: 0;
-        font-family: "JetBrainsMono Nerd Font", monospace;
-      }
+    * {
+      font-size: 13px;
+      min-height: 0;
+      font-family: "JetBrainsMono Nerd Font", monospace;
+    }
 
-      /* Minimal bar; let modules appear as bubbles */
-      window#waybar {
-        background-color: transparent;
-        border-bottom: none;
-        color: @fg;
-        padding: 6px 12px;
-      }
+    window#waybar {
+      background-color: transparent;
+      border-bottom: none;
+color: @fg;
+padding: 6px 12px;
+    }
 
-      /* Workspaces */
-      workspaces button {
-        padding: 6px 10px;
-        color: @fg;
-        background: transparent;
-        border: none;
+    /* --- Workspaces --- */
+    workspaces button {
+padding: 1px 10px;
+color: @fg;
+background: transparent;
+border: none;
         border-radius: 8px;
-      }
-      workspaces button.focused {
-        color: @accent;
-        font-weight: bold;
-        background: @bg-alt;
-      }
-      workspaces button:hover {
-        background: @bg-alt;
-      }
+    }
+    workspaces button.focused {
+color: @accent;
+       font-weight: bold;
+background: @bg-alt;
+    }
+    workspaces button:hover {
+background: @bg-alt;
+    }
 
-      /* Bubble modules */
-      #clock,
-      #tray {
-        background-color: @bg-alt;
-        color: @fg;
-        padding: 6px 10px;
-        margin: 0 6px;
+    /* --- Bubble singoli --- */
+#clock,
+#tray,
+#network {
+  background-color: @bg;
+color: @fg;
+padding: 1px 10px;
+margin: 0 6px;
         border-radius: 16px;
-        border: 1px solid @border;
+border: 1px solid @border;
         min-width: 38px;
-      }
+}
+#network:hover {
+  background-color: @bg;
+border: 1px solid @accent2;
+}
 
-      /* Bubble groups */
-      #sel,
-      #sys {
-        background-color: @bg-alt;
-        color: @fg;
-        border: 1px solid @border;
-        border-radius: 16px;
-        padding: 6px 10px;   /* bubble padding */
-        margin: 0 6px;       /* gap from other bubbles */
-        min-width: 38px;
+/* --- Bubble gruppi --- */
 
-        box-shadow: none;
-      }
+#sys,
+#sel {
+  background-color: @bg;
+  border-radius: 16px;
+border: 1px solid @border;
+padding: 1px 10px;
+margin: 0 6px;
+        min-width: 36px;
+}
 
-      #sel box,
-      #sys box {
-        background-color: transparent;
-        border: none;
-        margin: 0;
-        padding: 0;
-      }
+/* === STRUTTURA MODULO PER MODULO PADDING === */
+#cpu {
+padding: 1px 5px;
+}
+#custom-battery {
+padding: 1px 5px;
+}
+#memory {
+padding: 1px 5px;
+}
 
-      /* Make inner modules transparent and spaced */
-      #sel > box > *,
-      #sys  > box > * {
-        background-color: transparent;
-        border: none;
-        padding: 0 8px;     /* inner spacing between items */
-        margin: 0 4px;
-      }
+#custom-volume{
+padding: 1px 5px;
+}
+#custom-mic{
+padding: 1px 5px;
+}
+#backlight{
+padding: 1px 5px;
+padding-right: 1px;
+}
 
-      /* Hover: Bubbles-Groups */
-      #sel:hover,
-      #sys:hover,
-      #sel > box:hover,
-      #sys > box:hover {
-        background-color: @bg;
-        border-color: @border;
-      }
 
-      /* State colors */
-      #custom-volume.low,
-      #custom-mic.low { color: @fg-alt; border-color: @border; }
+/* Hover sui gruppi */
+#sel:hover,
+#sys:hover {
+  background-color: @bg;
+  border-color: @accent2;
+}
 
-      #custom-volume.mid,
-      #custom-mic.mid { color: @fg-alt; border-color: @accent; }
+/* --- Stati & colori --- */
 
-      #custom-volume.high,
-      #custom-mic.high { color: @accent2; border-color: @accent2; }
+/* Audio */
+#custom-volume.low,
+#custom-mic.low { color: @fg-alt; }
 
-      #custom-volume.over { color: @warn; border-color: @warn; }
+#custom-volume.mid,
+#custom-mic.mid { color: @fg-alt; border-color: @accent; }
 
-      #custom-volume.muted,
-      #custom-mic.muted { color: @error; border-color: @error; }
+#custom-volume.high,
+#custom-mic.high { color: @accent2; }
 
-      /* CPU & memory states */
-      #cpu { color: @accent2; }
-      #memory { color: @accent2; }
-      #cpu.warning, #memory.warning { color: @warn; }
-      #cpu.critical, #memory.critical { color: @error; }
+#custom-volume.over { color: @warn; }
 
-      /* Network */
-      #network { color: @accent2; padding: 6px 10px; }
+#custom-volume.muted,
+#custom-mic.muted { color: @error; }
 
-      /* Tray */
-      #tray {
-        margin-left: 8px;
-        margin-right: 6px;
-        padding: 4px;
-        background: transparent;
-        border: none;
-      }
+/* CPU & RAM */
+#cpu { color: @accent2; }
+#memory { color: @accent2; }
+#cpu.warning, #memory.warning { color: @warn; }
+#cpu.critical, #memory.critical { color: @error; }
 
-      /* Clock */
-      #clock{ color: @accent; }
+/* Battery */
+#custom-battery { color: @blueIce; }
+#custom-battery.charging    { color: @ok; }
+#custom-battery.full        { color: @accent; }
+#custom-battery.discharging.warning { color: @warn; }
+#custom-battery.discharging.critical { color: @error; }
+#custom-battery.unknown     { color: @fg-alt; }
 
-      /* Backlight */
-      #backlight { color: @blueIce; }
+/* Network */
+#network { color: @accent2; padding: 6px 10px; }
 
-      /* Battery state coloring (keep your semantics) */
-      #custom-battery { color: @blueIce; }
-      #custom-battery.charging    { color: @ok; }
-      #custom-battery.full        { color: @accent; }
-      #custom-battery.discharging.warning { color: @warn; }
-      #custom-battery.discharging.critical { color: @error; }
-      #custom-battery.unknown     { color: @fg-alt; }
-    '';
-  };
+/* Tray */
+#tray {
+  margin-left: 6px;
+  margin-right: 6px;
+padding: 4px;
+background: @bg;
+border: none;
+}
+
+/* Clock */
+#clock { color: @accent; }
+
+/* Backlight */
+#backlight { color: @blueIce; }
+'';
+};
 } # ⟦ΔΒ⟧
