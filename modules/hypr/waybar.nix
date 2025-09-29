@@ -238,9 +238,9 @@ in
         spacing = 8;
         output = [ "eDP-1" "HDMI-A-1" ];
 
-        modules-left   = [ "hyprland/workspaces" "backlight" "group/audio" ];
+        modules-left   = [ "hyprland/workspaces" "group/sel" ];
         modules-center = [ "clock" ];
-        modules-right  = [ "tray" "group/sys"  "network" "custom/battery" ];
+        modules-right  = [ "tray" "network" "custom/sys" ];
 
         backlight = {
           format = "{icon} ";
@@ -265,7 +265,7 @@ in
 
         "group/sys" = {
           orientation = "horizontal";
-          modules = [ "cpu" "memory" ];
+          modules = [ "cpu" "memory" "custom/battery" ];
         };
 
         network = {
@@ -301,7 +301,7 @@ in
           on-click-middle = "${micSlider}";
         };
 
-        "group/audio" = {
+        "group/sel" = {
           orientation = "horizontal";
           modules = [ "custom/volume" "custom/mic" ];
         };
@@ -400,9 +400,7 @@ in
 
       /* Bubble modules */
       #clock,
-      #tray,
-      #network,
-      #custom-battery {
+      #tray {
         background-color: @bg-alt;
         color: @fg;
         padding: 6px 10px;
@@ -412,19 +410,9 @@ in
         min-width: 38px;
       }
 
-      #backlight {
-        background-color: @bg-alt;
-        color: @fg;
-        padding: 2px 2px;
-        margin: 0 6px;
-        border-radius: 16px;
-        border: 1px solid @border;
-        min-width: 30px;
-      }
-
       /* Bubble groups */
-      #group-audio,
-      #group-sys {
+      #sel,
+      #sys {
         background-color: @bg-alt;
         color: @fg;
         border: 1px solid @border;
@@ -436,8 +424,8 @@ in
         box-shadow: none;
       }
 
-      #group-audio box,
-      #group-sys box {
+      #sel box,
+      #sys box {
         background-color: transparent;
         border: none;
         margin: 0;
@@ -445,27 +433,19 @@ in
       }
 
       /* Make inner modules transparent and spaced */
-      #group-audio > box > *,
-      #group-sys  > box > * {
+      #sel > box > *,
+      #sys  > box > * {
         background-color: transparent;
         border: none;
         padding: 0 8px;     /* inner spacing between items */
         margin: 0 4px;
       }
 
-      /* Hover: subtle color change */
-      #backlight:hover,
-      #network:hover,
-      #custom-battery:hover {
-        background-color: @bg;
-        border-color: @border;
-      }
-
       /* Hover: Bubbles-Groups */
-      #group-audio:hover,
-      #group-sys:hover,
-      #group-audio > box:hover,
-      #group-sys > box:hover {
+      #sel:hover,
+      #sys:hover,
+      #sel > box:hover,
+      #sys > box:hover {
         background-color: @bg;
         border-color: @border;
       }

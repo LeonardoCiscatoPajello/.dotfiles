@@ -104,7 +104,7 @@ in
           fi
         fi
 
-        parts+=("''${GOLD}''$(date +'%H:%M')''${RESET}")
+        #parts+=("''${GOLD}''$(date +'%H:%M')''${RESET}")
         RPROMPT="''${(j: | :)parts}"
       }
 
