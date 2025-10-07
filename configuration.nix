@@ -143,6 +143,7 @@
     black
     ruff
     python313Packages.debugpy                # debugger backend
+    python313Packages.pyserial
     pyright
     jdt-language-server
 
