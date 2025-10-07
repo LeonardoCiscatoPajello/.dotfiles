@@ -103,7 +103,7 @@
     lazygit
     tmux
     fprintd
-    htop
+    btop
     neofetch
     curl
     lua
@@ -123,6 +123,7 @@
     xournalpp
     greetd.tuigreet
     phinger-cursors
+    socat
 
     
     # --- C / C++ Toolchain & Build ---

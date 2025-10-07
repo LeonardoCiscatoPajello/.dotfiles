@@ -8,6 +8,7 @@ let Aliases = {
   conf = "cd ~/.config";
   uni = "cd ~/Documents/University";
   unia = "cd ~/.archive/UniArchive";
+  ndot = "cd ~/.archive/.nvim/";
   h = "history";
   cl = "clear";
   nf = "neofetch";
@@ -20,6 +21,8 @@ let Aliases = {
   delh = "truncate -s 0 ~/.zsh_history";
   hmsF = "home-manager switch --flake .";
   hm = "home-manager";
+  swboot = "sudo /run/current-system/bin/switch-to-configuration boot";
+  cleanup = "sudo nix-collectgarbage -d";
 };
 in {
   imports = [

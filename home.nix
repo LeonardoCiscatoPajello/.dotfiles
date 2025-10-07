@@ -28,6 +28,12 @@
     slurp
     wl-clipboard
     libnotify
+
+    # Addon for coding to be moved in a secon time
+    ruby_3_3
+    python312Packages.pip
+    nodePackages.mermaid-cli
+    sqlite
   ];
 
   home.sessionVariables = {
