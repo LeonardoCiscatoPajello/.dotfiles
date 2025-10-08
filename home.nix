@@ -35,6 +35,9 @@
 
     nodePackages.mermaid-cli
     sqlite
+    clang-tools
+    lua-language-server
+    stylua
   ];
 
   home.sessionVariables = {
@@ -52,6 +55,11 @@
     enable = true;
     image = "${config.home.homeDirectory}/Pictures/Back.jpg";
     monitors = [ "eDP-1" "HDMI-A-1" ];
+  };
+
+  programs.neovim = {
+    enable = true; 
+    extraPython3Packages = ps : [ ps.pynvim ];
   };
 
   programs.home-manager.enable = true;
