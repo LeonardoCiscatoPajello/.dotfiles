@@ -131,6 +131,7 @@ in
           "$mod SHIFT, S, movetoworkspace, special:magic"
           "$mod, H, movefocus, l"
           "$mod, L, movefocus, r"
+          "$mod, SHIFT, L, exec, kitty -e hyprlock"
           "$mod, K, movefocus, u"
           "$mod, J, movefocus, d"
           "$mod, mouse_down, workspace, e+1"

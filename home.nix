@@ -21,7 +21,6 @@
     hello
     firefox
     discord
-    hyprpaper
     pavucontrol
     brightnessctl
     grim
@@ -34,6 +33,8 @@
     (python313.withPackages (ps: with ps; [
       pip 
       pyserial
+      paho-mqtt
+      mysql-connector
     ]))
     nodePackages.mermaid-cli
     sqlite

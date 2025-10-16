@@ -125,6 +125,10 @@
     phinger-cursors
     socat
 
+    # --- Hyprland section ---
+    hyprlock 
+    hyprshot
+    hyprpaper
     
     # --- C / C++ Toolchain & Build ---
     clang
@@ -151,7 +155,7 @@
     jdk21
     maven
     google-java-format
-    jetbrains.idea-community #WARNING: Unload after Exam!
+    jetbrains.idea-community 
 
     # --- General Dev / Editing Helpers ---
     universal-ctags
