@@ -137,23 +137,12 @@ in
           "$mod, mouse_down, workspace, e+1"
           "$mod, mouse_up, workspace, e-1"
           "$mod, mouse:272, movewindow"
+          "$mod, =, exec, hyprshot -m window"       #ScrShot a window
+          ", =, exec, hyprshot -m output"           #ScrShot a monitor
+          "$shiftMod, =, exec, hyprshot -m region"  #ScrShot a region
+
           ]
         ++ wsBinds;
-
-        wayland.windowManager.hyprland.settings.bind = lib.mkAfter [
-        # Full screen -> file
-        ", Print, exec, grim $HOME/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
-
-        # Region -> file
-        "SHIFT, Print, exec, grim -g \"$(slurp)\" $HOME/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
-
-        # Region -> clipboard
-        "CTRL, Print, exec, grim -g \"$(slurp)\" - | wl-copy"
-
-        # (Optional) Region -> annotate (swappy) -> save
-        "SUPER_SHIFT, Print, exec, grim -g \"$(slurp)\" - | swappy -f -"
-
-      ];
 
       bindel = [
         ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
