@@ -2,11 +2,19 @@
 
 {
   imports = [
+    # SHELL
     ./shell/termSh.nix
+
+    # HYPRLAND
     ./modules/hypr/hyprland.nix
     ./modules/hypr/waybar.nix
+    ./modules/hypr/hyprlock.nix
+
+    # APPLICATIONS
     ./modules/app/rofi.nix
     ./modules/app/yazi.nix
+
+    # ESTHETICS
     ./modules/esthetics/wallpaper.nix
     ./modules/esthetics/hyprcursor.nix
   ];
