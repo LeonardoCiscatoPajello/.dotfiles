@@ -22,8 +22,7 @@
   home.username = "lcp";
   home.homeDirectory = "/home/lcp";
   home.stateVersion = "25.05";
-
-  nixpkgs.config.allowUnfree = true;
+nixpkgs.config.allowUnfree = true;
   
   home.packages = with pkgs; [
     hello
@@ -55,7 +54,7 @@
     EDITOR = "nvim";
     XCURSOR_THEME = "MyHypr";
     HYPRCURSOR_THEME = "MyHypr";
-    HYPRSHOT_DIR = "$HOME/Pictures/Screenshots/";
+    HYPRSHOT_DIR = "${config.home.homeDirectory}/Pictures/Screenshots/";
     XCURSOR_SIZE = toString config.my.hyprcursor.size;
     HYPRCURSOR_SIZE = toString config.my.hyprcursor.size;
     GDK_CORE_DEVICE_EVENTS = "1";

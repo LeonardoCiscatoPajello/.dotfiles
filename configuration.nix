@@ -166,6 +166,7 @@
     texlive.combined.scheme-medium
     ghostscript
     zathura
+      sioyek
     luarocks
 
     android-studio

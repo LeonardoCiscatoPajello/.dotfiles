@@ -20,6 +20,10 @@ in
       "$mod" = "SUPER";
       "$terminal" = "kitty";
       "$menu" = "rofi -show drun";
+    
+      env = [
+        "HYPRSHOT_DIR.${config.home.homeDirectory}/Pictures/Screenshots"
+      ];
 
       monitor = [ 
         "HDMI-A-1,1920x1080@75,0x0,1" 
@@ -137,9 +141,9 @@ in
           "$mod, mouse_down, workspace, e+1"
           "$mod, mouse_up, workspace, e-1"
           "$mod, mouse:272, movewindow"
-          "$mod, =, exec, hyprshot -m window"       #ScrShot a window
-          ", =, exec, hyprshot -m output"           #ScrShot a monitor
-          "$shiftMod, =, exec, hyprshot -m region"  #ScrShot a region
+          "$mod, PRINT, exec, hyprshot -m window"       #ScrShot a window
+          ", PRINT, exec, hyprshot -m output"           #ScrShot a monitor
+          "$mod SHIFT, PRINT, exec, hyprshot -m region"  #ScrShot a region
 
           ]
         ++ wsBinds;
