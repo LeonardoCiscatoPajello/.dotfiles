@@ -22,7 +22,11 @@ in
       "$menu" = "rofi -show drun";
     
       env = [
-        "HYPRSHOT_DIR.${config.home.homeDirectory}/Pictures/Screenshots"
+        "HYPRSHOT_DIR,${config.home.homeDirectory}/Pictures/Screenshots"
+        "XCURSOR_THEME,phinger-cursors"
+        "HYPRCURSOR_THEME,phinger-cursors"
+        "XCURSOR_SIZE,24"
+        "HYPRCURSOR_SIZE,24"
       ];
 
       monitor = [ 

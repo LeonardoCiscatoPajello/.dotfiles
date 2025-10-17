@@ -7,7 +7,7 @@ in
   programs.zsh = {
     syntaxHighlighting.enable = true;
 
-    initExtra = lib.mkAfter ''
+    initContent= lib.mkAfter ''
       # ==============================
       # Unified Prompt (palette-driven)
       # ==============================

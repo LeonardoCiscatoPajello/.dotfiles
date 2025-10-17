@@ -2,65 +2,61 @@
 
 {
   imports = [
-    # SHELL
+# SHELL
     ./shell/termSh.nix
 
-    # HYPRLAND
-    ./modules/hypr/hyprland.nix
-    ./modules/hypr/waybar.nix
-    ./modules/hypr/hyprlock.nix
+# HYPRLAND
+      ./modules/hypr/hyprland.nix
+      ./modules/hypr/waybar.nix
+      ./modules/hypr/hyprlock.nix
 
-    # APPLICATIONS
-    ./modules/app/rofi.nix
-    ./modules/app/yazi.nix
+# APPLICATIONS
+      ./modules/app/rofi.nix
+      ./modules/app/yazi.nix
 
-    # ESTHETICS
-    ./modules/esthetics/wallpaper.nix
-    ./modules/esthetics/hyprcursor.nix
+# ESTHETICS
+      ./modules/esthetics/wallpaper.nix
   ];
 
   home.username = "lcp";
   home.homeDirectory = "/home/lcp";
   home.stateVersion = "25.05";
-nixpkgs.config.allowUnfree = true;
-  
+  nixpkgs.config.allowUnfree = true;
+
   home.packages = with pkgs; [
     hello
-    firefox
-    discord
-    pavucontrol
-    brightnessctl
-    grim
-    slurp
-    wl-clipboard
-    libnotify
+      firefox
+      discord
+      pavucontrol
+      brightnessctl
+      grim
+      slurp
+      wl-clipboard
+      libnotify
 
-    # Addon for coding to be moved in a secon time
-    ruby_3_3
-    (python313.withPackages (ps: with ps; [
-      pip 
-      pyserial
-      paho-mqtt
-      mysql-connector
-    ]))
-    nodePackages.mermaid-cli
-    sqlite
-    clang-tools
-    lua-language-server
-    stylua
-  ];
+# Addon for coding to be moved in a secon time
+      ruby_3_3
+      (python313.withPackages (ps: with ps; [
+                               pip 
+                               pyserial
+                               paho-mqtt
+                               mysql-connector
+      ]))
+      nodePackages.mermaid-cli
+      sqlite
+      clang-tools
+      lua-language-server
+      stylua
+      ];
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    XCURSOR_THEME = "MyHypr";
-    HYPRCURSOR_THEME = "MyHypr";
     HYPRSHOT_DIR = "${config.home.homeDirectory}/Pictures/Screenshots/";
-    XCURSOR_SIZE = toString config.my.hyprcursor.size;
-    HYPRCURSOR_SIZE = toString config.my.hyprcursor.size;
     GDK_CORE_DEVICE_EVENTS = "1";
   };
-  
-   # my.hyprcursor.enable = true;
+
+  gtk.enable = true;
+  gtk.cursorTheme = { name = "phinger-cursors"; size = 24; };
 
   my.wallpaper = {
     enable = true;

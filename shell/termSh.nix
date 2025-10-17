@@ -42,7 +42,7 @@ in {
       enableCompletion = true;
       autosuggestion.enable = true;
       shellAliases = Aliases;
-      initExtra = ''
+      initContent= ''
         zmodload zsh/datetime
         zmodload zsh/mathfunc
         
