@@ -56,9 +56,14 @@
     GDK_CORE_DEVICE_EVENTS = "1";
   };
 
-  gtk.enable = true;
-  gtk.cursorTheme = { name = "phinger-cursors"; size = 24; };
-
+  home.pointerCursor = {
+    name = "vimix-cursors";
+    package = pkgs.vimix-cursors;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+  
   my.wallpaper = {
     enable = true;
     image = "${config.home.homeDirectory}/Pictures/Back.jpg";
