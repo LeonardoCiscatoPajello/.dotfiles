@@ -23,8 +23,10 @@ in
 
       env = [
         "HYPRSHOT_DIR,${config.home.homeDirectory}/Pictures/Screenshots"
-        "XCURSOR_THEME,vimix-cursors"
-        "XCURSOR_SIZE,24"
+          "XCURSOR_THEME,vimix-cursors"
+          "XCURSOR_SIZE,24"
+          "HYPRCURSOR_THEME,vimix-cursors"
+          "HYPRCURSOR_SIZE,24"
       ];
 
       monitor = [ 
@@ -35,7 +37,7 @@ in
 # Cleaned exec-once 
       exec-once = [
         "waybar"
-        "hyprctl setcursor vimix-cursors 24"
+          "hyprctl setcursor vimix-cursors 24"
       ];
 
       general = {
