@@ -115,6 +115,7 @@
     bc
     wl-clipboard-rs
     hyprlock
+    hyprcursor
     xournalpp
     greetd.tuigreet
     vimix-cursors
