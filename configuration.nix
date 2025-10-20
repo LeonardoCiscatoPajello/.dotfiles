@@ -12,13 +12,6 @@
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
   
-  environment.variables.XCURSOR_THEME = "phinger-cursors";
-  environment.variables.HYPRCURSOR_THEME= "phinger-cursors";
-  environment.variables.XCURSOR_SIZE = "24";
-  environment.variables.HYPRCURSOR_SYZE = "24";
-  environment.etc."icons/default/index.theme".text = ''[Icon Theme]\nInherits=phinger-cursors\n'';
-
-
   networking.hostName = "LCP-NixOs";
   networking.networkmanager.enable = true;
 
@@ -124,7 +117,7 @@
     hyprlock
     xournalpp
     greetd.tuigreet
-    phinger-cursors
+    vimix-cursors
     socat
 
     # --- Hyprland section ---

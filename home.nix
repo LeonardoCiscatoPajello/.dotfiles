@@ -49,6 +49,7 @@
       stylua
       ];
 
+
   home.sessionVariables = {
     EDITOR = "nvim";
     HYPRSHOT_DIR = "${config.home.homeDirectory}/Pictures/Screenshots/";

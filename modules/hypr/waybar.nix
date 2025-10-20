@@ -383,7 +383,7 @@ padding: 6px 12px;
     workspaces button {
 padding: 1px 10px;
 color: @fg;
-background: transparent;
+background: @bg;
 border: none;
         border-radius: 8px;
     }

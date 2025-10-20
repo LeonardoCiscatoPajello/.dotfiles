@@ -23,10 +23,6 @@ in
     
       env = [
         "HYPRSHOT_DIR,${config.home.homeDirectory}/Pictures/Screenshots"
-        "XCURSOR_THEME,phinger-cursors"
-        "HYPRCURSOR_THEME,phinger-cursors"
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
       ];
 
       monitor = [ 
@@ -34,9 +30,10 @@ in
         "eDP-1, preferred, 1920x0,1"
       ];
 
-      # Cleaned exec-once (start.sh removed, split combined command)
+      # Cleaned exec-once 
       exec-once = [
         "waybar"
+        "hyprctl setcursor = vimix-cursors-dark 24"
       ];
 
       general = {
