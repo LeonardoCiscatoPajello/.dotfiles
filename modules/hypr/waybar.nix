@@ -381,22 +381,32 @@ padding: 6px 12px;
 
     /* --- Workspaces --- */
 #workspaces {
-padding: 0 8px;
+padding: 1px 10px;
+margin: 0;
 background: transparent;
+transition: all 0.2s ease;
+border-radius: 16px;
+border: 1px solid transparent;
 }
 
 #workspaces button{
-padding: 0 8px;
 border: none;
-background: transparent;
-            border-radius: 16px;
-color:@fg;
+color: @fg;
+background-color: @bg;
+padding: 1px 10px;
+margin: 0;
+box-shadow: none;
 }
 
 
 #workspaces button:hover {
-background: @bg;
-border: none;
+background: transparent;
+border: 1px solid @accent2;
+border-radius: 16px;
+}
+
+#workspaces button:not(:last-child){
+margin-right: 4px;
 }
 
 #workspaces button.active{
