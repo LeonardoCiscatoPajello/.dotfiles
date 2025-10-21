@@ -116,9 +116,9 @@
     wl-clipboard-rs
     hyprlock
     hyprcursor
+    rose-pine-hyprcursor
     xournalpp
     greetd.tuigreet
-    vimix-cursors
     socat
 
     # --- Hyprland section ---
@@ -161,8 +161,7 @@
     # Added for LaTeX & tooling
     texlive.combined.scheme-medium
     ghostscript
-    zathura
-      sioyek
+    sioyek
     luarocks
 
     android-studio

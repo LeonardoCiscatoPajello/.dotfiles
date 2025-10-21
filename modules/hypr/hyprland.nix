@@ -23,9 +23,9 @@ in
 
       env = [
         "HYPRSHOT_DIR,${config.home.homeDirectory}/Pictures/Screenshots"
-          "XCURSOR_THEME,vimix-cursors"
+          "XCURSOR_THEME,rose-pine-hyprcursor"
           "XCURSOR_SIZE,24"
-          "HYPRCURSOR_THEME,vimix-cursors"
+          "HYPRCURSOR_THEME,rose-pine-hyprcursor"
           "HYPRCURSOR_SIZE,24"
       ];
 
@@ -37,7 +37,7 @@ in
 # Cleaned exec-once 
       exec-once = [
         "waybar"
-          "hyprctl setcursor vimix-cursors 24"
+          "hyprctl setcursor rose-pine-hyprcursor 24"
       ];
 
       general = {

@@ -49,25 +49,6 @@
       stylua
       ];
 
-  gtk = {
-    enable = true;
-    cursorTheme = {
-      name = "vimix-cursors";
-      package = pkgs.vimix-cursors;
-      size = 24;
-    };
-
-    gtk3.extraConfig = {
-      gtk-cursor-theme-name = "vimix-cursors";
-      gtk-cursor-theme-size = 24;
-    };
-
-    gtk4.extraConfig = {
-      gtk-cursor-theme-name = "vimix-cursors";
-      gtk-cursor-theme-size = 24;
-    };
-  };
-
   home.sessionVariables = {
     EDITOR = "nvim";
     HYPRSHOT_DIR = "${config.home.homeDirectory}/Pictures/Screenshots/";
@@ -75,9 +56,10 @@
   };
 
   home.pointerCursor = {
-    name = "vimix-cursors";
-    package = pkgs.vimix-cursors;
+    package = pkgs.rose-pine-hyprcursor;
+    name = "rose-pine";
     size = 24;
+    hyprcursor.enable = true;
     gtk.enable = true;
     x11.enable = true;
   };
