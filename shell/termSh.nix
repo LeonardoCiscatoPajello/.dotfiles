@@ -23,6 +23,7 @@ let Aliases = {
   hm = "home-manager";
   swboot = "sudo /run/current-system/bin/switch-to-configuration boot";
   cleanup = "sudo nix-collectgarbage -d";
+  whybar = "GTK_DEBUG=interactive waybar";
 };
 in {
   imports = [

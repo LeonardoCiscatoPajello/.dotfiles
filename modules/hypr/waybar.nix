@@ -173,60 +173,60 @@ let
         line="  $line"
       fi
       list="$list$line"$'\n'
-    done
-    choice="$(printf "%s" "$list" | rofi -dmenu -p 'Output Vol' | sed 's/^* //;s/^  //')"
-    [ -z "$choice" ] && exit 0
-    sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
-    [ -z "$sel" ] && exit 0
-    wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ "$sel%"
-    pkill -USR2 waybar 2>/dev/null || true
-  '';
+      done
+      choice="$(printf "%s" "$list" | rofi -dmenu -p 'Output Vol' | sed 's/^* //;s/^  //')"
+      [ -z "$choice" ] && exit 0
+      sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
+      [ -z "$sel" ] && exit 0
+      wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ "$sel%"
+      pkill -USR2 waybar 2>/dev/null || true
+      '';
 
-  # Mic volume slider
-  micSlider = pkgs.writeShellScript "waybar-mic-slider" ''
-    cur=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null | awk '{print $2}')
-    curPct=$(awk -v v="$cur" 'BEGIN{printf "%d", v*100+0.5}')
-    list=""
-    for p in $(seq 0 5 100); do
+# Mic volume slider
+      micSlider = pkgs.writeShellScript "waybar-mic-slider" ''
+      cur=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null | awk '{print $2}')
+      curPct=$(awk -v v="$cur" 'BEGIN{printf "%d", v*100+0.5}')
+      list=""
+      for p in $(seq 0 5 100); do
       line="$(${mkSliderBar} $p)"
       if [ "$p" -eq "$curPct" ]; then
-        line="* $line"
+      line="* $line"
       else
-        line="  $line"
+      line="  $line"
       fi
       list="$list$line"$'\n'
-    done
-    choice="$(printf "%s" "$list" | rofi -dmenu -p 'Mic Level' | sed 's/^* //;s/^  //')"
-    [ -z "$choice" ] && exit 0
-    sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
-    [ -z "$sel" ] && exit 0
-    wpctl set-volume -l 1 @DEFAULT_AUDIO_SOURCE@ "$sel%"
-    pkill -USR2 waybar 2>/dev/null || true
-  '';
+      done
+      choice="$(printf "%s" "$list" | rofi -dmenu -p 'Mic Level' | sed 's/^* //;s/^  //')"
+      [ -z "$choice" ] && exit 0
+      sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
+      [ -z "$sel" ] && exit 0
+      wpctl set-volume -l 1 @DEFAULT_AUDIO_SOURCE@ "$sel%"
+      pkill -USR2 waybar 2>/dev/null || true
+      '';
 
-  # Brightness slider
+# Brightness slider
   brightnessSlider = pkgs.writeShellScript "waybar-brightness-slider" ''
-    max=$(brightnessctl m 2>/dev/null)
-    curRaw=$(brightnessctl g 2>/dev/null)
-    [ -z "$max" ] || [ -z "$curRaw" ] && exit 0
-    curPct=$(( curRaw * 100 / max ))
-    list=""
-    for p in $(seq 0 5 100); do
-      line="$(${mkSliderBar} $p)"
-      if [ "$p" -eq "$curPct" ]; then
-        line="* $line"
-      else
-        line="  $line"
-      fi
-      list="$list$line"$'\n'
-    done
-    choice="$(printf "%s" "$list" | rofi -dmenu -p 'Brightness' | sed 's/^* //;s/^  //')"
-    [ -z "$choice" ] && exit 0
-    sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
-    [ -z "$sel" ] && exit 0
-    brightnessctl set "$sel%" -q
+  max=$(brightnessctl m 2>/dev/null)
+curRaw=$(brightnessctl g 2>/dev/null)
+  [ -z "$max" ] || [ -z "$curRaw" ] && exit 0
+curPct=$(( curRaw * 100 / max ))
+  list=""
+  for p in $(seq 0 5 100); do
+  line="$(${mkSliderBar} $p)"
+  if [ "$p" -eq "$curPct" ]; then
+  line="* $line"
+  else
+  line="  $line"
+  fi
+  list="$list$line"$'\n'
+  done
+  choice="$(printf "%s" "$list" | rofi -dmenu -p 'Brightness' | sed 's/^* //;s/^  //')"
+  [ -z "$choice" ] && exit 0
+  sel=$(printf "%s" "$choice" | awk -F'%' '{print $1}' | awk '{print $NF}')
+  [ -z "$sel" ] && exit 0
+  brightnessctl set "$sel%" -q
   '';
-in
+  in
 {
   programs.waybar = {
     enable = true;
@@ -380,23 +380,30 @@ padding: 6px 12px;
     }
 
     /* --- Workspaces --- */
-    workspaces button {
-padding: 1px 10px;
-color: @fg;
+#workspaces {
+padding: 0 8px;
+background: transparent;
+}
+
+#workspaces button{
+padding: 0 8px;
+border: none;
+background: transparent;
+            border-radius: 16px;
+color:@fg;
+}
+
+
+#workspaces button:hover {
 background: @bg;
 border: none;
-        border-radius: 8px;
-    }
-    workspaces button.focused {
-color: @accent;
-       font-weight: bold;
-background: @bg-alt;
-    }
-    workspaces button:hover {
-background: @bg-alt;
-    }
+}
 
-    /* --- Bubble singoli --- */
+#workspaces button.active{
+color: @blueIce;
+       font-weight: bold;
+}
+/* --- Bubble singoli --- */
 #clock,
 #tray,
 #network {
@@ -444,7 +451,7 @@ padding: 1px 5px;
 }
 #backlight{
 padding: 1px 5px;
-padding-right: 1px;
+         padding-right: 1px;
 }
 
 
