@@ -120,11 +120,13 @@
     xournalpp
     greetd.tuigreet
     socat
+    mako # Notification Deamnon
 
     # --- Hyprland section ---
     hyprlock 
     hyprshot
     hyprpaper
+    hypridle
     
     # --- C / C++ Toolchain & Build ---
     clang

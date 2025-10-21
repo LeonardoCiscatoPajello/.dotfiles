@@ -34,10 +34,10 @@ in
         "eDP-1, preferred, 1920x0,1"
       ];
 
-# Cleaned exec-once 
       exec-once = [
         "waybar"
-          "hyprctl setcursor rose-pine-hyprcursor 24"
+        "hyprctl setcursor rose-pine-hyprcursor 24"
+        "mako"
       ];
 
       general = {
@@ -174,6 +174,14 @@ in
         "suppressevent maximize, class:.*"
           "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
       ];
+      windowrulev2 = [
+        "blur, class:^mako$"
+          "rounding 12, class:^mako$"
+          "opacity 0.92, class:^mako$"
+          "noanim, class:^mako$"
+          "noblur, floating:0" # optional: prevents background blur on other windows
+      ];
+
     };
   };
 } # ⟦ΔΒ⟧

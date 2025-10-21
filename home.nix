@@ -10,9 +10,10 @@
       ./modules/hypr/waybar.nix
       ./modules/hypr/hyprlock.nix
 
-# APPLICATIONS
-      ./modules/app/rofi.nix
-      ./modules/app/yazi.nix
+# SYSTEM 
+      ./modules/system/rofi.nix
+      ./modules/system/yazi.nix
+      ./modules/system/mako.nix
 
 # ESTHETICS
       ./modules/esthetics/wallpaper.nix
