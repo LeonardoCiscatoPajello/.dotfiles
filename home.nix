@@ -9,6 +9,7 @@
       ./modules/hypr/hyprland.nix
       ./modules/hypr/waybar.nix
       ./modules/hypr/hyprlock.nix
+      ./modules/hypr/hypridle.nix
 
 # SYSTEM 
       ./modules/system/rofi.nix

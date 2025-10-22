@@ -22,7 +22,7 @@ let Aliases = {
   hmsF = "home-manager switch --flake .";
   hm = "home-manager";
   swboot = "sudo /run/current-system/bin/switch-to-configuration boot";
-  cleanup = "sudo nix-collectgarbage -d";
+  clgar = "sudo nix-collect-garbage -d";
   whybar = "GTK_DEBUG=interactive waybar";
 };
 in {
