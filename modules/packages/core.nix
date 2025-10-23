@@ -1,0 +1,41 @@
+{ pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    neovim
+    wget 
+    git 
+    lazygit 
+    tmux 
+    fprintd 
+    btop 
+    neofetch 
+    curl
+    lua 
+    tree-sitter 
+    ripgrep 
+    fd 
+    nodejs 
+    gcc 
+    zip 
+    unzip 
+    fzf 
+    stylua
+    zsh 
+    bc 
+    wl-clipboard-rs 
+    hyprlock 
+    hyprcursor 
+    rose-pine-hyprcursor
+    xournalpp 
+    greetd.tuigreet 
+    socat 
+    mako 
+    hyprshot 
+    hyprpaper 
+    hypridle
+    universal-ctags 
+    shellcheck 
+    shfmt 
+    luarocks
+  ];
+}# ⟦ΔΒ⟧
