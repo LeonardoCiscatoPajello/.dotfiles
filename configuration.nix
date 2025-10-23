@@ -6,6 +6,7 @@
 
     # === SYSTEM MODULES ===
     ./modules/system/boot.nix
+    ./modules/system/nix.nix
     ./modules/system/networking.nix
     ./modules/system/locale.nix
     ./modules/system/audio.nix
@@ -26,5 +27,4 @@
   
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "25.05";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 } # ⟦ΔΒ⟧

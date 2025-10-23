@@ -1,5 +1,10 @@
 { ... }:
 {
-networking.hostName = "LCP-NixOs";
-networking.networkmanager.enable = true;
+ networking = {
+   hostName = "LCP-NixOs";
+   networkmanager = {
+     enable = true;
+     wifi.powersave = true;
+   };
+  };
 }# ⟦ΔΒ⟧
