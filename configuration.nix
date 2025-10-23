@@ -24,8 +24,7 @@
     LC_MEASUREMENT = "it_IT.UTF-8";
     LC_MONETARY = "it_IT.UTF-8";
     LC_NAME = "it_IT.UTF-8";
-    LC_NUMERIC = "it_IT.UTF-8";
-    LC_PAPER = "it_IT.UTF-8";
+    LC_NUMERIC = "it_IT.UTF-8"; LC_PAPER = "it_IT.UTF-8";
     LC_TELEPHONE = "it_IT.UTF-8";
   };
 
@@ -76,7 +75,7 @@
       isNormalUser = true;
       shell = pkgs.zsh;
       description = "Leonardo Ciscato Pajello";
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = [ "networkmanager" "wheel" "dialout" "uucp" "plugdev" ];
       packages = with pkgs; [
         kdePackages.kate
       ];
@@ -168,7 +167,14 @@
 
     android-studio
     flutter
+
+    # ARDUINO
+    arduino-ide
+    arduino-cli
   ];
+  
+  services.udev.packages = with pkgs; [ arduino ];
+
 
   system.stateVersion = "25.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
