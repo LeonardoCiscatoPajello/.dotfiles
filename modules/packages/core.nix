@@ -1,41 +1,15 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    neovim
-    wget 
-    git 
-    lazygit 
-    tmux 
-    fprintd 
-    btop 
-    neofetch 
-    curl
-    lua 
-    tree-sitter 
-    ripgrep 
-    fd 
-    nodejs 
-    gcc 
-    zip 
-    unzip 
-    fzf 
-    stylua
-    zsh 
-    bc 
-    wl-clipboard-rs 
-    hyprlock 
-    hyprcursor 
-    rose-pine-hyprcursor
-    xournalpp 
-    greetd.tuigreet 
-    socat 
-    mako 
-    hyprshot 
-    hyprpaper 
-    hypridle
-    universal-ctags 
-    shellcheck 
-    shfmt 
-    luarocks
+    # Core tools
+    neovim wget git lazygit tmux fprintd btop neofetch curl
+    tree-sitter ripgrep fd zip unzip fzf zsh bc
+    
+    # Hyprland essentials
+    wl-clipboard-rs hyprlock hyprcursor rose-pine-hyprcursor
+    greetd.tuigreet socat mako hyprshot hyprpaper hypridle
+    
+    # Shell tools
+    universal-ctags shellcheck shfmt
   ];
 }# ⟦ΔΒ⟧

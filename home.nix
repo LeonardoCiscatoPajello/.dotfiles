@@ -19,6 +19,7 @@
 
     # === APPS ===
     ./modules/apps/neovim.nix
+    ./modules/apps/lsp.nix
 
     # === ESTHETICS ===
     ./modules/esthetics/wallpaper.nix
@@ -26,6 +27,9 @@
 
     # === PACKAGES ===
     ./modules/packages/gui.nix
+    ./modules/packages/dev/web.nix
+    ./modules/packages/dev/python-user.nix
+    ./modules/packages/dev/database.nix
     
   ];
 
