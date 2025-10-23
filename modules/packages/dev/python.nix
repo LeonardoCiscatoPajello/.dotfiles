@@ -7,6 +7,5 @@
     ruff 
     python313Packages.debugpy 
     python313Packages.pyserial 
-    pyright
   ];
 }# ⟦ΔΒ⟧
