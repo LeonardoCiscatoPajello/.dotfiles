@@ -146,7 +146,8 @@ in
           "$mod, J, movefocus, d"
           "$mod, mouse_down, workspace, e+1"
           "$mod, mouse_up, workspace, e-1"
-          "$mod, mouse:272, movewindow"
+          "$mod, mouse1, movewindow"
+          "$mod, mouse3, resizewindow"
           "$mod, PRINT, exec, hyprshot -m window"       #ScrShot a window
           ", PRINT, exec, hyprshot -m output"           #ScrShot a monitor
           "$mod SHIFT, PRINT, exec, hyprshot -m region"  #ScrShot a region
