@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-ICON=
+# Place this script inside the hypr directory under config at this path: ~/.config/hypr/scripts/lang-watcher.sh
+
+ICON="$HOME/.config/mako/icons/kb.png" # <-- this png is not provided on the repo, find yours
 
 get_lang() {
   layout="$1"
@@ -24,4 +26,5 @@ socat -u UNIX-CONNECT:"$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socke
       layout="${layout_name#*,}"
       notify-send -h string:x-canonical-private-synchronous:kbd-layout -u low -i "$ICON" "Keyboard Layout" "$(get_lang "$layout")"
     fi
-  done
+  done 
+  # ⟦ΔΒ⟧
