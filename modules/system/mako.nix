@@ -18,8 +18,8 @@ in {
     
     background-color=${c.bgAlt}
     text-color=${c.fg}
-    border-color=${c.accent2}
-    progress-color=${c.accent2}
+    border-color=${c.purpleDeep}
+    progress-color=${c.purpleDeep}
     
     [urgency=low]
     border-color=${c.border}

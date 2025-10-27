@@ -125,30 +125,42 @@ in
         sensitivity = -0.5;
       }
       ];
-
+      
+      bindm = 
+      [   # === MOUSE BINDS ===
+          "$mod, mouse:272, movewindow"
+          "$mod, mouse:273, resizewindow"
+      ];
       bind =
         [
-        "$mod, Q, exec, $terminal"
+          # === SYSTEM ===
+          "$mod, Q, exec, $terminal"
           "$mod, C, killactive,"
           "$mod, M, exit,"
           "$mod, E, exec, kitty -e yazi"
-          "$mod, V, togglefloating,"
           "ALT, SPACE, exec, $menu"
+          "$mod ALT, L, exec, hyprlock"
+          
+          # === WINDOWS ===
+          "$mod, V, togglefloating,"
           "$mod, P, pseudo,"
           "$mod, up, togglesplit,"
-          "$mod, F, exec, firefox"
-          "$mod, D, exec, discord"
           "$mod, S, togglespecialworkspace, magic"
           "$mod SHIFT, S, movetoworkspace, special:magic"
           "$mod, H, movefocus, l"
           "$mod, L, movefocus, r"
-          "$mod SHIFT, L, exec, kitty -e hyprlock"
           "$mod, K, movefocus, u"
           "$mod, J, movefocus, d"
+          "$mod SHIFT, H, movewindow, l"
+          "$mod SHIFT, L, movewindow, r"
+          "$mod SHIFT, K, movewindow, u"
+          "$mod SHIFT, J, movewindow, d"
           "$mod, mouse_down, workspace, e+1"
           "$mod, mouse_up, workspace, e-1"
-          "$mod, mouse1, movewindow"
-          "$mod, mouse3, resizewindow"
+
+          # === APPLICATIONS ===
+          "$mod, F, exec, firefox"
+          "$mod, D, exec, discord"
           "$mod, PRINT, exec, hyprshot -m window"       #ScrShot a window
           ", PRINT, exec, hyprshot -m output"           #ScrShot a monitor
           "$mod SHIFT, PRINT, exec, hyprshot -m region"  #ScrShot a region
