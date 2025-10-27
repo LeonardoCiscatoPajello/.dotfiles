@@ -13,5 +13,8 @@
     slurp
     wl-clipboard
     libnotify
+
+    # JSON parser for hyprctl output
+    jq
   ];
 }# ⟦ΔΒ⟧

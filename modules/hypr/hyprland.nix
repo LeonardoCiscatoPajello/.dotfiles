@@ -38,6 +38,7 @@ in
         "waybar"
         "hyprctl setcursor rose-pine-hyprcursor 24"
         "mako"
+        "/home/lcp/.config/hypr/scripts/lang-watcher.sh &"
       ];
 
       general = {

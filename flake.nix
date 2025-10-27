@@ -12,23 +12,23 @@
 
   outputs = { self, nixpkgs, home-manager, hyprland, ... }:
     let 
-      lib = nixpkgs.lib;
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      nixosConfigurations = {
-        LCP-NixOs = lib.nixosSystem {
-          inherit system;
-          modules = [ ./configuration.nix ];
-        };
-      };
-
-      homeConfigurations = {
-        lcp = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ ./home.nix ];
-        };
+    lib = nixpkgs.lib;
+  system = "x86_64-linux";
+  pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    nixosConfigurations = {
+      LCP-NixOs = lib.nixosSystem {
+        inherit system;
+        modules = [ ./configuration.nix ];
       };
     };
+
+    homeConfigurations = {
+      lcp = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [ ./home.nix ];
+      };
+    };
+  };
 
 } # ⟦ΔΒ⟧
