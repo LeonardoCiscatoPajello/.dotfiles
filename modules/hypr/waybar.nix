@@ -476,10 +476,10 @@ padding: 1px 5px;
 
 /* Audio */
 #custom-volume.low,
-#custom-mic.low { color: @fg-alt; }
+#custom-mic.low { color: @accent2; }
 
 #custom-volume.mid,
-#custom-mic.mid { color: @fg-alt; border-color: @accent; }
+#custom-mic.mid { color: @accent2; border-color: @accent; }
 
 #custom-volume.high,
 #custom-mic.high { color: @accent2; }

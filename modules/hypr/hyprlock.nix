@@ -88,7 +88,7 @@ label {
       disable_loading_bar = true
   }
 
-  $fn_greet=echo "Good $(date +%H | awk '{if ($1 < 10) print "morning"; else if ($1 < 13) print "noon"; else if ($1 < 18) print "afternoon"; else if ($1 < 22) print "evening"; else print "night"}'), $(echo ''${USER})" #| tr '[:lower:]' '[:upper:]')"
+  $fn_greet=echo "Good $(date +%H | awk '{if ($1 < 10) print "morning"; else if ($1 < 13) print "noon"; else if ($1 < 18) print "afternoon"; else if ($1 < 22) print "evening"; else print "night"}'), $(echo "Leonardo"")" #| tr '[:lower:]' '[:upper:]')"
 
 # USER
     label {

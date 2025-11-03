@@ -5,6 +5,7 @@
       pip 
       paho-mqtt
       mysql-connector
+      pymata-express
     ]))
   ];
 }# ⟦ΔΒ⟧
