@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     # Core tools
+    efibootmgr
     neovim 
     wget 
     git 
@@ -37,5 +38,6 @@
     universal-ctags 
     shellcheck 
     shfmt
+    caligula
   ];
 }# ⟦ΔΒ⟧

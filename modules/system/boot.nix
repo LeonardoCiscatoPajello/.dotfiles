@@ -8,6 +8,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   
   # Faster boot
-  boot.loader.timeout = 1;
+  boot.loader.timeout = 5;
   boot.kernelParams = [ "quiet" ];
 }# ⟦ΔΒ⟧
