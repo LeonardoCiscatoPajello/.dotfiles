@@ -7,6 +7,8 @@
     pavucontrol
     brightnessctl
     xournalpp
+    dia #WARNING: Visual Paradigm substitute
+    libreoffice-qt6
     
     # Wayland tools
     grim

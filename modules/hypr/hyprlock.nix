@@ -88,12 +88,12 @@ label {
       disable_loading_bar = true
   }
 
-  $fn_greet=echo "Good $(date +%H | awk '{if ($1 < 10) print "morning"; else if ($1 < 13) print "noon"; else if ($1 < 18) print "afternoon"; else if ($1 < 22) print "evening"; else print "night"}'), $(echo "Leonardo"")" #| tr '[:lower:]' '[:upper:]')"
+  $fn_greet=echo "Good $(date +%H | awk '{if ($1 < 10) print "morning"; else if ($1 < 13) print "noon"; else if ($1 < 18) print "afternoon"; else if ($1 < 22) print "evening"; else print "night"}'), $(echo "Leonardo")"
 
 # USER
     label {
       monitor =
-#text = cmd[update:60000] echo "Good $(date +"%-I" | awk '{if ($1 < 12) print "morning"; else print "evening"}') $(echo ''${USER} | tr '[:lower:]' '[:upper:]' )"
+        text = cmd[update:60000] echo "Good $(date +"%-I" | awk '{if ($1 < 12) print "morning"; else print "evening"}') $(echo ''${USER} | tr '[:lower:]' '[:upper:]' )"
         text = cmd[update:60000] $fn_greet
         color = $p3_accent_7_rgba #nil
         font_size = 30

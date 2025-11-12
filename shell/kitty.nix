@@ -9,7 +9,7 @@ in
       extraConfig = ''
         # Basics
         font_family JetBrainsMonoNL Nerd Font
-        font_size 13
+        font_size 12
         background_blur 1 
         background_opacity 0.92
         
